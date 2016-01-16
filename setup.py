@@ -16,14 +16,19 @@ except:
 
 requirements=[
     "Flask>=0.10.1",
-    "pymarc>=3.0.3",
-    "ply>=3.6.0",
-    "PyZ3950>=2.04",
+    "ply>=3.8.0, <4.0",
+    "pymarc>=3.0.4, <4.0",
+    "PyZ3950",
+    ]
+
+dependency_links=[
+    # The version on PyPi seems to have issues with ply
+    "git+https://github.com/asl2/PyZ3950.git#egg=PyZ3950"
     ]
 
 tests_require = [
-    'pytest-cov>=2.2.0',
-    'pytest>=2.8.4',
+    "pytest-cov>=2.2.0, <3.0",
+    "pytest>=2.8.4, <3.0",
 ]
 
 setup(
@@ -40,6 +45,7 @@ setup(
     include_package_data=True,
     platforms="any",
     install_requires=requirements,
+    dependency_links=dependency_links,
     classifiers=[
         "Development Status :: 4 - Alpha",
         "Environment :: Web Environment",

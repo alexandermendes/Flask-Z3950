@@ -1,7 +1,7 @@
 # -*- coding: utf8 -*-
 
 import pytest
-from flask_z3950.z3950 import Z3950Error
+from PyZ3950.zoom import QuerySyntaxError
 
 
 class TestZ3950Manager():
@@ -24,6 +24,8 @@ class TestZ3950Database():
         assert config == expected
 
 
-    def test_search_with_bad_syntax(self, z3950_db):
-        with pytest.raises(Z3950Error):
-            print z3950_db.search('ti=')
+    def test_searching_with_bad_syntax_raises_error(self, z3950_db):
+        with pytest.raises(QuerySyntaxError):
+            msg = z3950_db.search('ti=')
+
+            assert msg == "The query could not be parsed."

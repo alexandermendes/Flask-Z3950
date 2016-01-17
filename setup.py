@@ -48,17 +48,15 @@ setup(
     install_requires=requirements,
     dependency_links=dependency_links,
     classifiers=[
-        "Development Status :: 4 - Alpha",
+        "Development Status :: 4 - Beta",
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
         "Programming Language :: Python 2.6",
         "Programming Language :: Python 2.7",
-        "Programming Language :: Python 3.3",
-        "Programming Language :: Python 3.4",
-        "Programming Language :: Python 3.5",
+        'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+        "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Internet :: Z39.50",
-        "Topic :: Software Development :: Libraries :: Python Modules"
     ],
 )

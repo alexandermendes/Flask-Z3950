@@ -6,4 +6,4 @@ from PyZ3950.zoom import ZoomError
 
 __author__ = 'Alexander Mendes'
 __license__ = 'BSD License'
-__version__ = '0.0.1'
+__version__ = '0.1.0'

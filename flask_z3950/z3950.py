@@ -4,10 +4,6 @@
 from PyZ3950 import zoom
 from .dataset import Dataset
 
-__author__ = 'Alexander Mendes'
-__license__ = 'BSD License'
-__version__ = '0.0.1'
-
 
 class Z3950Manager(object):
     """Z39.50 manager class to configure and handle Z39.50 databases.

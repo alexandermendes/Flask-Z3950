@@ -1,5 +1,7 @@
 # -*- coding: utf8 -*-
 
+import json
+
 
 class TestDataset():
 
@@ -22,3 +24,9 @@ class TestDataset():
         expected = ''.join(dataset.record_data)
 
         assert dataset.to_str() == expected
+
+
+    def test_kwargs_included_in_json_transformation(self, dataset):
+        json_data = dataset.to_json(number=42)
+
+        assert json.loads(json_data).get('number') == 42

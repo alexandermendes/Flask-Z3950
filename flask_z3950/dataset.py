@@ -1,6 +1,7 @@
 # -*- coding: utf8 -*-
 """Dataset module for Flask-Z3950."""
 
+import json
 import os
 import pymarc
 from lxml import etree
@@ -41,6 +42,19 @@ class Dataset(object):
         xslt = 'marcxml-to-html.xsl'
         html_list = [self._transform(xml, xslt) for xml in xmllist]
         return "".join(html_list)
+
+
+    def to_json(self, **kwargs):
+        """Return a JSON representation of the MARC records in the dataset.
+
+        Args:
+            **kwargs: Arbitrary keyword arguments to add to the returned JSON.
+        """
+        reclist = [pymarc.Record(data=r).as_dict() for r in self.record_data]
+        recdict = {"records": reclist}
+        recdict.update(kwargs)
+        return json.dumps(recdict)
+
 
 
     def _transform(self, xml, xslt_fn):

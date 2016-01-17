@@ -2,6 +2,7 @@
 """Z39.50 module for Flask-Z3950."""
 
 from PyZ3950 import zoom
+from .dataset import Dataset
 
 __author__ = 'Alexander Mendes'
 __license__ = 'BSD License'
@@ -102,4 +103,4 @@ class Z3950Database(object):
         e = s + int(size)
         rs = conn.search(q)[s:e]
 
-        return [r.data for r in rs]
+        return Dataset([r.data for r in rs])

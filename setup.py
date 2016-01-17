@@ -10,9 +10,10 @@ import os
 from setuptools import setup, find_packages
 
 try:
-    readme = open(os.path.join(os.path.dirname(__file__), 'README.md')).read()
+    here = os.path.dirname(__file__)
+    long_description = open(os.path.join(here, 'docs', 'index.rst')).read()
 except:
-    readme = ""
+    long_description = ""
 
 requirements=[
     "Flask>=0.10.1",
@@ -34,14 +35,14 @@ tests_require = [
 
 setup(
     name="Flask-Z3950",
-    version="0.1.0",
+    version="0.1.1",
     author="Alexander Mendes",
     author_email="alexanderhmendes@gmail.com",
     description="A Flask plugin that provides Z39.50 integration.",
     license="BSD",
     url="https://github.com/alexandermendes/Flask-Z3950",
     packages=['flask_z3950'],
-    long_description=readme,
+    long_description=long_description,
     zip_safe=False,
     include_package_data=True,
     platforms="any",
@@ -53,8 +54,8 @@ setup(
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
-        "Programming Language :: Python 2.6",
-        "Programming Language :: Python 2.7",
+        "Programming Language :: Python :: 2.6",
+        "Programming Language :: Python :: 2.7",
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Internet :: Z39.50",

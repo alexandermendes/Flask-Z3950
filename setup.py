@@ -33,7 +33,7 @@ tests_require = [
 
 setup(
     name="Flask-Z3950",
-    version="1.2.0",
+    version="0.0.1",
     author="Alexander Mendes",
     author_email="alexanderhmendes@gmail.com",
     description="A Flask plugin that provides Z39.50 integration.",

@@ -58,7 +58,6 @@
 
          <!-- Select button -->
          <div class="col-xs-4">
-
             <a href="#" data-control-num="{$control-num}" class="btn btn-success btn-marc pull-right">Select</a>
          </div>
       </div>

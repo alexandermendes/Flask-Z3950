@@ -8,44 +8,49 @@
             <p>
 
                <!-- Title -->
-               <a href="#" target="_blank">
+               <span class="title">
                   <xsl:value-of select="concat(datafield[@tag=880]/subfield[@code=6][contains(text(),'245')]
                      /following-sibling::subfield[@code = 'a' or @code = 'b'],' ')" />
                   <xsl:value-of select="concat(datafield[@tag='245']/subfield[@code = 'a' or @code = 'b'],' ')" />
-               </a>
+               </span>
                <br />
-
-               <!-- Uniform Title -->
-               <xsl:value-of select="concat(datafield[@tag=880]/subfield[@code=6][contains(text(),'240')]
-                  /following-sibling::subfield[@code = 'a' or @code = 'b'],' ')" />
-               <xsl:value-of select="concat(datafield[@tag='245']/subfield[@code = 'a' or @code = 'b'],' ')" />
 
                <!-- Author -->
-               <xsl:value-of select="concat(datafield[@tag=880]/subfield[@code=6][contains(text(),'100')]
-                  /following-sibling::subfield[@code = 'a'],' ')" />
-               <xsl:value-of select="concat(datafield[@tag='100']/subfield[@code = 'a'],' ')" />
-               <xsl:value-of select="concat(datafield[@tag=880]/subfield[@code=6][contains(text(),'110')]
-                  /following-sibling::subfield[@code = 'a'],' ')" />
-               <xsl:value-of select="concat(datafield[@tag='110']/subfield[@code = 'a'],' ')" />
-               <xsl:value-of select="concat(datafield[@tag=880]/subfield[@code=6][contains(text(),'111')]
-                  /following-sibling::subfield[@code = 'a'],' ')" />
-               <xsl:value-of select="concat(datafield[@tag='111']/subfield[@code = 'a'],' ')" />
+               <span class="author">
+                  <xsl:value-of select="concat(datafield[@tag=880]/subfield[@code=6][contains(text(),'100')]
+                     /following-sibling::subfield[@code = 'a'],' ')" />
+                  <xsl:value-of select="concat(datafield[@tag='100']/subfield[@code = 'a'],' ')" />
+                  <xsl:value-of select="concat(datafield[@tag=880]/subfield[@code=6][contains(text(),'110')]
+                     /following-sibling::subfield[@code = 'a'],' ')" />
+                  <xsl:value-of select="concat(datafield[@tag='110']/subfield[@code = 'a'],' ')" />
+                  <xsl:value-of select="concat(datafield[@tag=880]/subfield[@code=6][contains(text(),'111')]
+                     /following-sibling::subfield[@code = 'a'],' ')" />
+                  <xsl:value-of select="concat(datafield[@tag='111']/subfield[@code = 'a'],' ')" />
+               </span>
                <br />
-               <small>
 
+               <small>
                   <!-- Publisher -->
-                  <xsl:value-of select="concat(datafield[@tag=880]/subfield[@code=6][contains(text(),'260')]
-                     /following-sibling::subfield[@code = 'b'],' ')" />
-                  <xsl:value-of select="concat(datafield[@tag='260']/subfield[@code = 'b'],' ')" />
-                  <xsl:value-of select="concat(datafield[@tag=880]/subfield[@code=6][contains(text(),'264')]
-                     /following-sibling::subfield[@code = 'b'],' ')" />
-                  <xsl:value-of select="concat(datafield[@tag='264']/subfield[@code = 'b'],' ')" />
-                  <xsl:value-of select="concat(datafield[@tag='260']/subfield[@code = 'c'],' ')" />
-                  <xsl:value-of select="concat(datafield[@tag='264']/subfield[@code = 'c'],' ')" />
+                  <span class="publisher">
+                     <xsl:value-of select="concat(datafield[@tag=880]/subfield[@code=6][contains(text(),'260')]
+                        /following-sibling::subfield[@code = 'b'],' ')" />
+                     <xsl:value-of select="concat(datafield[@tag='260']/subfield[@code = 'b'],' ')" />
+                     <xsl:value-of select="concat(datafield[@tag=880]/subfield[@code=6][contains(text(),'264')]
+                        /following-sibling::subfield[@code = 'b'],' ')" />
+                     <xsl:value-of select="concat(datafield[@tag='264']/subfield[@code = 'b'],' ')" />
+                  </span>
+
+                  <!--Publication year-->
+                  <span class="pubyear">
+                     <xsl:value-of select="concat(datafield[@tag='260']/subfield[@code = 'c'],' ')" />
+                     <xsl:value-of select="concat(datafield[@tag='264']/subfield[@code = 'c'],' ')" />
+                  </span>
                   <br />
 
                   <!-- Physical description -->
-                  <xsl:value-of select="concat(datafield[@tag='300']/subfield[@code = 'a' or @code = 'b' or @code = 'c' or @code = 'f'],' ')" />
+                  <span class="physdesc">
+                     <xsl:value-of select="concat(datafield[@tag='300']/subfield[@code = 'a' or @code = 'b' or @code = 'c' or @code = 'f'],' ')" />
+                  </span>
                   <br />
                </small>
             </p>
@@ -53,6 +58,7 @@
 
          <!-- Select button -->
          <div class="col-xs-4">
+
             <a href="#" data-control-num="{$control-num}" class="btn btn-success btn-marc pull-right">Select</a>
          </div>
       </div>

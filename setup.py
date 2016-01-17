@@ -16,6 +16,7 @@ except:
 
 requirements=[
     "Flask>=0.10.1",
+    "lxml>=3.5.0, <4.0"
     "ply>=3.8.0, <4.0",
     "pymarc>=3.0.4, <4.0",
     "PyZ3950",

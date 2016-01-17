@@ -8,7 +8,7 @@ A `Flask`_ plugin for `Z3950`_ integration.
 
 
 Installation
-------------
+============
 
 Flask-Z3950 is available on PyPi:
 
@@ -18,10 +18,10 @@ Flask-Z3950 is available on PyPi:
 
 
 Quickstart
-----------
+==========
 
 Initialise a :class:`Z3950Manager` object and start performing searches with
-your chosen Z39.50 database, like so:
+your chosen :class:`Z3950Database`, like so:
 
 .. code-block:: python
 
@@ -40,12 +40,12 @@ your chosen Z39.50 database, like so:
 
 .. note::
 
-   The default query syntax is `CCL`_, for a list of alternative syntaxes
-   see the class :class:`Z3950Database`.
+   The default query syntax is `CCL`_, see :class:`Z3950Database` for all
+   accepted syntaxes.
 
 
 Configuration
--------------
+=============
 
 The following configration settings exist for Flask-Z3950:
 
@@ -61,25 +61,27 @@ The following configration settings exist for Flask-Z3950:
                                     initialise a new
                                     :class:`Z3950Database`, so the
                                     dictionary keys should be named the
-                                    same as the __init__ parameters for
-                                    that class, taking note of any
-                                    optional and default values.
+                                    same as the parameters used to
+                                    initialise that class, taking note of
+                                    any default values.
 =================================== ======================================
 
 
 API
----
-
-.. module:: flask_z3950
+===
 
 .. autoclass:: Z3950Manager
+   :members:
+
+.. autoclass:: Z3950Database
    :members:
 
 .. autoclass:: Dataset
    :members:
 
+
 Changelog
----------
+=========
 
 .. include:: ../CHANGES
 

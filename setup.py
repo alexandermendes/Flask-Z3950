@@ -24,7 +24,6 @@ requirements=[
     ]
 
 dependency_links=[
-    # The version on PyPi seems to have issues with ply
     "git+https://github.com/asl2/PyZ3950.git#egg=PyZ3950"
     ]
 

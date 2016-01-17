@@ -10,8 +10,7 @@ from lxml import etree
 class Dataset(object):
     """Dataset class with functions for transforming raw record data.
 
-    Args:
-        record_data: A list of raw record data.
+    :param record_data: A list of raw record data.
     """
 
     def __init__(self, record_data):
@@ -19,20 +18,12 @@ class Dataset(object):
 
 
     def to_str(self):
-        """Return a string representation of all records in the the dataset.
-
-        Returns
-            str: The raw data.
-        """
+        """Return a string representation of all raw record data."""
         return ''.join([r for r in self.record_data])
 
 
     def to_marcxml(self):
-        """Return a MARCXML representation of any MARC records in the dataset.
-
-        Returns:
-            str: A well-formed MARCXML document as a string.
-        """
+        """Return a MARCXML representation of any MARC records."""
         records = [pymarc.Record(data=r) for r in self.record_data]
         xmllist = [pymarc.record_to_xml(r) for r in records]
         xmlstr = "".join(xmllist)
@@ -44,12 +35,7 @@ class Dataset(object):
 
 
     def to_html(self):
-        """Return an HTML representation of any MARC records in the dataset.
-
-        Returns:
-            str: A basic Bootstrap 3 representation of the records that can be
-                modified further using CSS and JS on the client-side.
-        """
+        """Return an HTML representation of any MARC records."""
         records = [pymarc.Record(data=r) for r in self.record_data]
         xmllist = [pymarc.record_to_xml(r) for r in records]
         xslt = 'marcxml-to-html.xsl'
@@ -58,14 +44,9 @@ class Dataset(object):
 
 
     def to_json(self, **kwargs):
-        """Return a JSON representation of any MARC records in the dataset.
+        """Return a JSON representation of any MARC records.
 
-        Args:
-            **kwargs: Arbitrary keyword arguments to add to the returned JSON.
-
-        Returns:
-            str: A JSON serialized representation of the dataset.
-        """
+        :param **kwargs: Arbitrary keyword arguments to add to the JSON."""
         reclist = [pymarc.Record(data=r).as_dict() for r in self.record_data]
         recdict = {"records": reclist}
         recdict.update(kwargs)
@@ -74,15 +55,7 @@ class Dataset(object):
 
 
     def _transform(self, xml, xslt_fn):
-        """Return the result of an XSLT transformation.
-
-        Args:
-            xml: The XML string to be transformed.
-            xslt_fn: Name of the XSLT file to apply.
-
-        Returns:
-            The transformed XML as a string.
-        """
+        """Return the result of an XSLT transformation."""
         here = os.path.dirname(os.path.abspath(__file__))
         xslt_path = os.path.join(here, 'xsl', xslt_fn)
         xslt = etree.parse(xslt_path)

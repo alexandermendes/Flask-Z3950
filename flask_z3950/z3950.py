@@ -8,11 +8,9 @@ from .dataset import Dataset
 class Z3950Manager(object):
     """Z39.50 manager class to configure and handle Z39.50 databases.
 
-    Args:
-        app: The Flask application.
+    :param app: The Flask application.
 
-    Attributes:
-        databases (dict): All configured Z3950 databases.
+    :ivar databases: All configured Z3950 databases.
     """
 
     def __init__(self, app=None):
@@ -24,8 +22,7 @@ class Z3950Manager(object):
     def init_app(self, app):
         """Configure the extension.
 
-        Args:
-            app: The Flask application.
+        :param app: The Flask application.
         """
         db_config = app.config.get('Z3950_DATABASES', {})
 
@@ -38,25 +35,14 @@ class Z3950Manager(object):
 class Z3950Database(object):
     """Z39.50 database class to query a Z39.50 database.
 
-    Args:
-        db: The name of the database.
-        host: The host.
-        port: The port.
-        user (Optional): The username (the default is None).
-        password (Optional): The password (the default is None).
-        syntax (Optional): Prefered record syntax, supported values are USMARC,
-            SUTRS, XML, GRS-1, EXPLAIN, and OPAC (the default is USMARC).
-        elem_set_name (Optional): Element set name, usually B for brief or F
-            for full (the default is F).
-
-    Attributes:
-        db: The name of the database.
-        host: The host.
-        port: The port.
-        user: The username.
-        password: The password.
-        syntax: The prefered record syntax.
-        elem_set_name: The element set name.
+    :param db: The database.
+    :param host: The host.
+    :param port: The port.
+    :param user: The username.
+    :param password: The password.
+    :param syntax: Prefered record syntax, either USMARC, SUTRS, XML, GRS-1,
+        EXPLAIN, or OPAC.
+    :param elem_set_name: Element set name, usually B for brief or F for full.
     """
 
     def __init__(self, db, host, port, user=None, password=None,
@@ -73,8 +59,7 @@ class Z3950Database(object):
     def _connect(self):
         """Return a connection to the configured database.
 
-        Returns:
-            A connection.
+        :returns: A connection.
         """
         conn = zoom.Connection(self.host, self.port, user=self.user,
                                password=self.password)
@@ -88,17 +73,13 @@ class Z3950Database(object):
     def search(self, query, position=1, size=10, syntax='CCL'):
         """Return the results of a database query.
 
-        Args:
-            query: The database query.
-            position (Optional): The position of the first record (the default
-                is 1).
-            size (Optional): The maximum number of records to return (the
-                default is 10).
-            syntax (Optional): The syntax of the query, either CCL, S-CCL, CQL,
-                S-CQL, PQF, C2, ZSQL or CQL-TREE (the default is CCL).
+        :param query: The database query.
+        :param position: The position of the first record.
+        :param size: The maximum number of records to return.
+        :param syntax: The syntax of the query, either CCL, S-CCL, CQL, S-CQL,
+            PQF, C2, ZSQL or CQL-TREE.
 
-        Returns:
-            A Dataset object containing the raw data for each record.
+        :returns: A :class:`Dataset` object containing the raw record data.
         """
         conn = self._connect()
         try:

@@ -1,9 +1,6 @@
 # -*- coding: utf8 -*-
-"""Z39.50 module to query databases via the Z39.50 protocol."""
+"""Z39.50 module for Flask-Z3950."""
 
-import pymarc
-import os
-import time
 from PyZ3950 import zoom
 
 __author__ = 'Alexander Mendes'
@@ -72,19 +69,11 @@ class Z3950Database(object):
         self.elem_set_name = elem_set_name
 
 
-    def _connect(self, position, size):
-        """Return a database connection
-
-        Args:
-            position (int): The position of the first record to retrieve.
-            max_records (int): The maximum number of records to retrieve.
-            record_syntax (str): Supported values are USMARC, SUTRS, XML, SGML,
-                GRS-1, OPAC and EXPLAIN.
-        """
+    def _connect(self):
+        """Return a database connection"""
         conn = zoom.Connection(self.host, self.port, user=self.user,
-                               password=self.password, maximumRecordSize=size)
+                               password=self.password)
         conn.databaseName = self.db
-        conn.responsePosition = position
         conn.preferredRecordSyntax = self.syntax
         conn.elementSetName = self.elem_set_name
 
@@ -103,12 +92,14 @@ class Z3950Database(object):
         Returns:
             list: A list of the raw data for each record.
         """
-        conn = self._connect(position, size)
+        conn = self._connect()
         try:
             q = zoom.Query(syntax, query)
         except (zoom.ZoomError, RuntimeError) as e:
             raise Z3950Error(e)
 
-        rs = conn.search(q)
+        s = int(position)
+        e = s + int(size)
+        rs = conn.search(q)[s:e]
 
         return [r.data for r in rs]

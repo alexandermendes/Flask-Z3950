@@ -1,4 +1,5 @@
 # -*- coding: utf8 -*-
+"""Main package for Flask-Z3950."""
 
 from .z3950 import Z3950Manager
 from PyZ3950.zoom import ZoomError

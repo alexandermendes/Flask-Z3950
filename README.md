@@ -3,12 +3,20 @@
 [![Build Status](https://travis-ci.org/alexandermendes/Flask-Z3950.svg?branch=master)]
 (https://travis-ci.org/alexandermendes/Flask-Z3950)
 [![Coverage Status](https://coveralls.io/repos/alexandermendes/Flask-Z3950/badge.svg)]
-(https://coveralls.io/github/alexandermendes/Flask-Z3950?branch=master) 
+(https://coveralls.io/github/alexandermendes/Flask-Z3950?branch=master)
 [![Code Health](https://landscape.io/github/alexandermendes/Flask-Z3950/master/landscape.svg)]
 (https://landscape.io/github/alexandermendes/Flask-Z3950/master)
 
-A Flask plugin for Z39.50 integration.
+A [Flask](http://flask.pocoo.org/) plugin for [Z39.50](https://en.wikipedia.org/wiki/Z39.50) integration.
 
+
+## Installation
+
+Flask-Z3950 is available on PyPi:
+
+```
+$ pip install Flask-Z3950
+```
 
 ## Configuration
 

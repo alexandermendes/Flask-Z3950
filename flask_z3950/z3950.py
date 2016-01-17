@@ -9,11 +9,6 @@ __license__ = 'BSD License'
 __version__ = '0.0.1'
 
 
-class Z3950Error(Exception):
-    """Error class to handle any errors raised from this module."""
-    pass
-
-
 class Z3950Manager(object):
     """Z39.50 manager class to configure and handle Z39.50 databases.
 
@@ -96,8 +91,8 @@ class Z3950Database(object):
         conn = self._connect()
         try:
             q = zoom.Query(syntax, query)
-        except (zoom.ZoomError, RuntimeError) as e:
-            raise Z3950Error(e)
+        except (zoom.QuerySyntaxError) as e:
+            raise zoom.QuerySyntaxError("The query could not be parsed.")
 
         s = int(position)
         e = s + int(size)

@@ -34,6 +34,15 @@ class Dataset(object):
         return self._transform(xmldoc, 'format-xml.xsl')
 
 
+    def to_marchtml(self):
+        """Return an HTML representation of the MARC records in the dataset."""
+        records = [pymarc.Record(data=r) for r in self.record_data]
+        xmllist = [pymarc.record_to_xml(r) for r in records]
+        xslt = 'marcxml-to-html.xsl'
+        html_list = [self._transform(xml, xslt) for xml in xmllist]
+        return "".join(html_list)
+
+
     def _transform(self, xml, xsl_file):
         """Return the result of an XSLT transformation.
 

@@ -7,7 +7,7 @@ A Flask plugin that provides Z39.50 integration.
 """
 
 import os
-from setuptools import setup, find_packages
+from setuptools import setup
 
 try:
     here = os.path.dirname(__file__)

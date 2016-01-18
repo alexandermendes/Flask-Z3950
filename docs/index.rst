@@ -66,6 +66,22 @@ The following configration settings exist for Flask-Z3950:
                                     any default values.
 =================================== ======================================
 
+Example
+=======
+
+An `example application`_ is provided to show how you might setup a Z39.50
+gateway capable of returning records in multiple formats, you can try it out by
+typing:
+
+.. code-block:: console
+
+    $ python example.py
+
+To retrieve a MARCXML document containing the first ten records in the Library
+of Congress database with the title "1066 and all that" enter the following
+into your browser::
+
+    http://0.0.0.0:5000/search/loc?q=(ti=1066%20and%20all%20that)&f=MARCXML
 
 API
 ===
@@ -88,3 +104,4 @@ Changelog
 .. _Flask: http://flask.pocoo.org/
 .. _Z3950: https://en.wikipedia.org/wiki/Z39.50
 .. _CCL: http://www.indexdata.dk/yaz/doc/tools.tkl#CCL
+.. _example application: https://github.com/alexandermendes/Flask-Z3950/blob/master/example.py

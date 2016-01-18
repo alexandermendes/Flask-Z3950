@@ -46,7 +46,8 @@ class Dataset(object):
     def to_json(self, **kwargs):
         """Return a JSON representation of any MARC records.
 
-        :param **kwargs: Arbitrary keyword arguments to add to the JSON."""
+        :param ``**kwargs``: Arbitrary keyword arguments to add to the JSON.
+        """
         reclist = [pymarc.Record(data=r).as_dict() for r in self.record_data]
         recdict = {"records": reclist}
         recdict.update(kwargs)

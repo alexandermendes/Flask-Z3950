@@ -25,20 +25,6 @@ your Flask configuration file:
 
 ```
 Z3950_DATABASES = {'name': {'host': '', 'db': '', 'port': '', 'user': '', 'password': '', 'syntax': ''}}
-```
-
-|   Key         | Value                                                             |
-|:-------------:|-------------------------------------------------------------------|
-| name          | An identifier for the database                                    |
-| host          | The host.                                                         |
-| db            | The database.                                                     |
-| port          | The port.                                                         |
-| user          | The username (default None)                                       |
-| password      | The password (default None)                                       |
-| syntax        | USMARC, SUTRS, XML, SGML, GRS-1, OPAC or EXPLAIN (default USMARC) |
-| elem_set_name | Element set name, usually B for brief or F for full (default F)   |
-
-Note that the `user`, `password`, `syntax` and `elem_set_name` keys are optional.
 
 Multiple databases can be configured by adding additional dictionaries, for an
 example of such a configuration see [settings_test.py](settings_test.py).
@@ -49,33 +35,27 @@ example of such a configuration see [settings_test.py](settings_test.py).
 To initialise the the plugin and start performing Z39.50 searches:
 
 ```Python
+from flask import Flask
+from flask_z3950 import Z3950Manager
+
+app = Flask(__name__)
+db_config = {"db": "Voyager", "host": "z3950.loc.gov", "port": 7090}
+app.config["Z3950_DATABASES"] = {"loc": db_config}
+
 z3950_manager = Z3950Manager(app)
 z3950_db = z3950_manager.databases['loc']
-records = z3950_db.search("ti=1066 and all that")
-```
+records = z3850_db.search("ti=1066 and all that")
 
-For all types of record the raw data can be retrieved:
-
-```Python
 print records.data
 ```
 
-For MARC records, additional transformations are provided, to MARCXML, HTML and
-JSON, for example:
+## Testing
 
-```Python
-print records.to_html()
+Just run the following command:
+
 ```
-
-The HTML is a basic Bootstrap 3 template that you can modify further in your
-CSS and JS. For example, you could use the select button like this:
-
-```JavaScript
-$(document).delegate('.btn-marc', 'click', function (e) {
-    alert("Record " + $(this).attr('data-control-num') + " selected!")
-}
+$ python setup.py test
 ```
-
 
 ## Example
 
@@ -94,3 +74,8 @@ into your browser:
 ```
 http://0.0.0.0:5000/search/loc?q=(ti=1066%20and%20all%20that)&f=MARCXML
 ```
+
+## Documentation
+
+See the [Flask-Z3950 documentation](Flask-Z3950 documentation: https://pythonhosted.org/Flask-Z3950/)
+for further details.

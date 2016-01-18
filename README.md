@@ -25,6 +25,7 @@ your Flask configuration file:
 
 ```
 Z3950_DATABASES = {'name': {'host': '', 'db': '', 'port': '', 'user': '', 'password': '', 'syntax': ''}}
+```
 
 Multiple databases can be configured by adding additional dictionaries, for an
 example of such a configuration see [settings_test.py](settings_test.py).

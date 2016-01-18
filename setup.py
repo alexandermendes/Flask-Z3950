@@ -30,7 +30,7 @@ test_requirements = ["pytest-cov>=2.2.0, <3.0",
 
 setup(
     name="Flask-Z3950",
-    version="0.1.2",
+    version="0.1.3",
     author="Alexander Mendes",
     author_email="alexanderhmendes@gmail.com",
     description="A Flask plugin that provides Z39.50 integration.",

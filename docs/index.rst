@@ -20,8 +20,7 @@ Flask-Z3950 is available on PyPi:
 Quickstart
 ==========
 
-Initialise a :class:`Z3950Manager` object and start performing searches with
-your chosen :class:`Z3950Database`, like so:
+Performing a database search via Z39.50 can be done like this:
 
 .. code-block:: python
 
@@ -38,22 +37,25 @@ your chosen :class:`Z3950Database`, like so:
 
     print records.data
 
-.. note::
-
-   The default query syntax is `CCL`_, see :class:`Z3950Database` for all
-   accepted syntaxes.
+The example above begins with a new Flask application being created and the
+configuration details for the Library of Congress database specified. These
+details are passed to an instance of :class:`Z3950Manager` and used to create a
+new :class:`Z3950Database` object. This database object can then be
+retrieved using the assigned identifier ('loc'). A search is performed that
+will retrieve the first ten records in the Library of Congress database with
+the title "1066 and all that" and the results are printed.
 
 
 Configuration
 =============
 
-The following configration settings exist for Flask-Z3950:
+The following configuration settings exist for Flask-Z3950:
 
 =================================== ======================================
 `Z3950_DATABASES`                   A dictionary containing Z39.50
                                     database configuration details, where
                                     keys are database identifiers and
-                                    values a nested dictionaries
+                                    values are nested dictionaries
                                     containing configuration details for
                                     that database.
 
@@ -62,26 +64,51 @@ The following configration settings exist for Flask-Z3950:
                                     :class:`Z3950Database`, so the
                                     dictionary keys should be named the
                                     same as the parameters used to
-                                    initialise that class, taking note of
-                                    any default values.
+                                    initialise that class.
 =================================== ======================================
 
-Example
-=======
 
-An `example application`_ is provided to show how you might setup a Z39.50
-gateway capable of returning records in multiple formats, you can try it out by
-typing:
+Query Syntax
+============
 
-.. code-block:: console
+The default query syntax is CCL but a number of alternative syntaxes are
+provided, each with different complexities. The documentation for the most
+common of these syntaxes can be found below:
 
-    $ python example.py
+- `CCL`_: ISO 8777
+- `CQL`_: The Common Query Language
+- `PQF`_: Index Data's Prefix Query Format
+- `C2`_: Cheshire II query syntax
 
-To retrieve a MARCXML document containing the first ten records in the Library
-of Congress database with the title "1066 and all that" enter the following
-into your browser::
 
-    http://0.0.0.0:5000/search/loc?q=(ti=1066%20and%20all%20that)&f=MARCXML
+Transforming MARC records
+=========================
+
+Any raw MARC data returned from a database search can be transformed into a
+variety of different formats, such as MARCXML, JSON and HTML. For more details,
+see the API documentation for :class:`Dataset`.
+
+
+Z39.50 Gateway
+==============
+
+Below is an example of setting up a Z39.50 gateway to return the results of a
+database search as MARCXML:
+
+.. code-block:: python
+
+    @app.route('/search/<db>')
+    def search(db):
+        """Return Z39.50 search results as MARCXML."""
+        z3950_db = z3950_manager.databases[db]
+        query = request.args.get('query')
+        records = z3950_db.search(query)
+        xml = records.to_marcxml()
+
+        return Response(xml, 200, mimetype="application/xml")
+
+For additional search options see the API documentation for :class:`Z3950Database`.
+
 
 API
 ===
@@ -104,4 +131,6 @@ Changelog
 .. _Flask: http://flask.pocoo.org/
 .. _Z3950: https://en.wikipedia.org/wiki/Z39.50
 .. _CCL: http://www.indexdata.dk/yaz/doc/tools.tkl#CCL
-.. _example application: https://github.com/alexandermendes/Flask-Z3950/blob/master/example.py
+.. _CQL: http://www.loc.gov/standards/sru/cql/
+.. _PQF: http://www.indexdata.dk/yaz/doc/tools.tkl#PQF
+.. _C2: http://cheshire.berkeley.edu/cheshire2.html#zfind

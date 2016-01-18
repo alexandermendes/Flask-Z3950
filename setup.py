@@ -15,26 +15,22 @@ try:
 except:
     long_description = ""
 
-requirements=[
-    "Flask>=0.10.1",
-    "lxml>=3.5.0, <4.0",
-    "ply>=3.8.0, <4.0",
-    "pymarc>=3.0.4, <4.0",
-    "PyZ3950",
-    ]
+requirements = ["Flask>=0.10.1",
+                "lxml>=3.5.0, <4.0",
+                "ply>=3.8.0, <4.0",
+                "pymarc>=3.0.4, <4.0",
+                "PyZ3950",
+                ]
 
-dependency_links=[
-    "git+https://github.com/asl2/PyZ3950.git#egg=PyZ3950"
-    ]
+dependency_links = ["git+https://github.com/asl2/PyZ3950.git#egg=PyZ3950"]
 
-tests_require = [
-    "pytest-cov>=2.2.0, <3.0",
-    "pytest>=2.8.4, <3.0",
-]
+test_requirements = ["pytest-cov>=2.2.0, <3.0",
+                     "pytest>=2.8.4, <3.0",
+                     ]
 
 setup(
     name="Flask-Z3950",
-    version="0.1.1",
+    version="0.1.2",
     author="Alexander Mendes",
     author_email="alexanderhmendes@gmail.com",
     description="A Flask plugin that provides Z39.50 integration.",

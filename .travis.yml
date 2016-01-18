@@ -9,6 +9,7 @@ install:
   - python setup.py install
 script:
   - python -m py.test -v --cov=flask_z3950 tests/
+  - pep8
 after_success:
   - pip install coveralls
   - coveralls

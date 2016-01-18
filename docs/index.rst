@@ -26,13 +26,13 @@ your chosen :class:`Z3950Database`, like so:
 .. code-block:: python
 
     from flask import Flask
-    from flask_z3950 import Z3950Manager
+    from flask.ext.z3950 import Z3950Manager
 
     app = Flask(__name__)
     db_config = {"db": "Voyager", "host": "z3950.loc.gov", "port": 7090}
     app.config["Z3950_DATABASES"] = {"loc": db_config}
-
     z3950_manager = Z3950Manager(app)
+
     z3950_db = z3950_manager.databases['loc']
     records = z3850_db.search("ti=1066 and all that")
 

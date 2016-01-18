@@ -2,7 +2,7 @@
 """Example of using Flask-Z3950 to set up a Z39.50 gateway."""
 
 from flask import Flask, request, abort, Response
-from flask_z3950 import Z3950Manager, ZoomError
+from flask.ext.z3950 import Z3950Manager, ZoomError
 import settings_test as settings
 
 # Setup Flask

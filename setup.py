@@ -11,7 +11,7 @@ from setuptools import setup, find_packages
 
 try:
     here = os.path.dirname(__file__)
-    long_description = open(os.path.join(here, 'docs', 'index.rst')).read()
+    long_description = open(os.path.join(here, 'docs', 'long_desc.rst')).read()
 except:
     long_description = ""
 
@@ -59,4 +59,6 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Internet :: Z39.50",
     ],
+    tests_require=test_requirements,
+    test_suite="tests",
 )

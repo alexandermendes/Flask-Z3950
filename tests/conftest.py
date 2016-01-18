@@ -6,7 +6,7 @@ from flask import Flask
 from flask_z3950.z3950 import Z3950Manager, Z3950Database
 from flask_z3950.dataset import Dataset
 import settings_test as settings
-import dataset_test
+
 
 @pytest.fixture(scope='session')
 def app():
@@ -29,5 +29,7 @@ def z3950_db():
 
 @pytest.fixture
 def dataset():
-    records = getattr(dataset_test, 'DATASET')
-    return Dataset(records)
+    here = os.path.abspath(os.path.dirname(__file__))
+    dataset_file = os.path.join(here, 'dataset.dat')
+    with open(dataset_file, 'rb') as f:
+        return Dataset([f.read()])

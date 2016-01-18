@@ -77,5 +77,5 @@ http://0.0.0.0:5000/search/loc?q=(ti=1066%20and%20all%20that)&f=MARCXML
 
 ## Documentation
 
-See the [Flask-Z3950 documentation](Flask-Z3950 documentation: https://pythonhosted.org/Flask-Z3950/)
+See the [Flask-Z3950 documentation](https://pythonhosted.org/Flask-Z3950/)
 for further details.

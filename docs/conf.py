@@ -118,7 +118,7 @@ html_theme = 'flask_small'
 # further.  For a list of options available for each theme, see the
 # documentation.
 html_theme_options = {
-    'index_logo':       'logo.png',
+    'index_logo':       'logo.jpg',
     'github_fork':      'alexandermendes/Flask-Z3950'
 }
 

@@ -54,7 +54,6 @@ class Dataset(object):
         return json.dumps(recdict)
 
 
-
     def _transform(self, xml, xslt_fn):
         """Return the result of an XSLT transformation."""
         here = os.path.dirname(os.path.abspath(__file__))

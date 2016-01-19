@@ -77,7 +77,7 @@ def search(db):
     next_url = _get_next_url(query, size, position, fmt, total)
     prev_url = _get_previous_url(query, size, position, fmt)
     resp = {'data': data, 'message': None, 'next': next_url,
-            'previous': prev_url,'created': created, 'total': total,
+            'previous': prev_url, 'created': created, 'total': total,
             'n_records': n_records, 'step_size': size, 'position': position}
 
     # Respond
@@ -89,7 +89,7 @@ def _json_response(code, msg=None, data=None, **kwargs):
     resp = {'data': data, 'message': msg}
 
     if str(code)[0] in ['4', '5']:
-         resp.update({'status': 'error'})
+        resp.update({'status': 'error'})
     else:
         resp.update({'status': 'success'})
         resp.update(kwargs)

@@ -5,10 +5,13 @@
     <p>
         <small>
             {% if previous %}<a href="{{previous}}">{% endif %}&lt; Previous{% if previous %}</a>{% endif %}
+            {% set start = position|humanize_int %}
+            {% set n = (position + step_size - 1)|humanize_int %}
+            {% set end = total|humanize_int %}
             {% if position + n_records >= total %}
-             | {{position}} to {{ total }} of {{ total }} |
+             | {{ start }} to {{ end }} of {{ end }} |
             {% else %}
-             | {{position}} to {{ position + step_size - 1 }} of {{ total }} |
+             | {{ start }} to {{ n }} of {{ end }} |
             {% endif %}
             {% if next %}<a href="{{next}}">{% endif %}Next &gt;{% if next %}</a>{% endif %}
         </small>

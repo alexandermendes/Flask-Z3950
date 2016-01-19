@@ -3,7 +3,7 @@
    <xsl:variable name="control-num" select="translate(record/controlfield[@tag='001'],
       translate(record/controlfield[@tag='001'], '0123456789', ''), '')" />
    <xsl:template match="record">
-      <div class="row marc-record">
+      <div class="row z3950-record">
          <div class="col-xs-8" id="{$control-num}">
             <p>
 
@@ -58,7 +58,7 @@
 
          <!-- Select button -->
          <div class="col-xs-4">
-            <a href="#" data-control-num="{$control-num}" class="btn btn-success btn-marc pull-right">Select</a>
+            <a href="#" data-control-num="{$control-num}" class="btn btn-success btn-z3950 pull-right">Select</a>
          </div>
       </div>
    </xsl:template>

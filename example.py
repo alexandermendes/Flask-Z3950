@@ -1,5 +1,5 @@
 # -*- coding: utf8 -*-
-"""Example of using Flask-Z3950 to set up a Z39.50 gateway."""
+"""Example of using Flask-Z3950 to set up the default Z39.50 gateway."""
 
 from flask import Flask
 from flask.ext.z3950 import Z3950Manager

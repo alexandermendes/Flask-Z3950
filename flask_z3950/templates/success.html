@@ -1,0 +1,15 @@
+<div class="marc-records">
+    {{ data|safe }}
+</div>
+<div class="row text-center" id="marc-pagination">
+    <p>
+        <small>
+            {% if previous %}<a href="{{previous}}">{% endif %}&lt; Previous{% if previous %}</a>{% endif %}
+            {% if position + n_records >= total %}
+             | {{position}} to {{ total }} of {{ total }} |
+            {% else %}
+             | {{position}} to {{ position + step_size - 1 }} of {{ total }} |
+            {% endif %}
+            {% if next %}<a href="{{next}}">{% endif %}Next &gt;{% if next %}</a>{% endif %}
+        </small>
+</div>

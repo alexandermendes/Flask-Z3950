@@ -31,6 +31,22 @@ class Z3950Manager(object):
             db = Z3950Database(**config)
             self.databases[name] = db
 
+        # Store application specific state
+        if not hasattr(app, 'extensions'):
+            app.extensions = {}
+        app.extensions['z3950'] = self
+
+
+    def register_blueprint(self, *args, **kwargs):
+        """Register blueprint.
+
+        :param ``*args``: Variable length argument list.
+        :param ``**kwargs``: Arbitrary keyword arguments.
+        """
+        from .blueprint import Z3950Blueprint
+        blueprint = Z3950Blueprint()
+        self.app.register_blueprint(blueprint, *args, **kwargs)
+
 
 class Z3950Database(object):
     """Z39.50 database class to query a Z39.50 database.
@@ -87,8 +103,8 @@ class Z3950Database(object):
         except (zoom.QuerySyntaxError) as e:
             raise zoom.QuerySyntaxError("The query could not be parsed.")
 
-        s = int(position)
-        e = s + int(size)
-        rs = conn.search(q)[s:e]
+        start = int(position)
+        end = start + int(size)
+        rs = conn.search(q)
 
-        return Dataset([r.data for r in rs])
+        return Dataset([r.data for r in rs[start:end]], total=len(rs))

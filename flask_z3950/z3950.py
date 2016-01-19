@@ -34,7 +34,7 @@ class Z3950Manager(object):
         # Store application specific state
         if not hasattr(app, 'extensions'):
             app.extensions = {}
-        app.extensions['z3950'] = self
+        app.extensions['z3950'] = {'z3950_manager': self}
 
 
     def register_blueprint(self, *args, **kwargs):

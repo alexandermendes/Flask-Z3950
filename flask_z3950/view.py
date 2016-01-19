@@ -1,5 +1,5 @@
 # -*- coding: utf8 -*-
-"""Example of using Flask-Z3950 to set up a Z39.50 gateway."""
+"""View module for Flask-Z3950."""
 
 import json
 from flask import Flask, request, abort, Response, render_template
@@ -48,7 +48,11 @@ def search(db):
         return response(400, msg='Size must be greater than zero')
 
     # Retrieve database
-    z3950_manager = current_app.extensions['z3950']
+    try:
+        z3950_manager = current_app.extensions['z3950']['z3950_manager']
+    except KeyError:
+        return response(500, msg='Z3950Manager not configured')
+
     try:
         z3950_db = z3950_manager.databases[db]
     except KeyError:
@@ -60,6 +64,11 @@ def search(db):
     except ZoomError as e:
         return response(400, msg=e)
 
+    total = records.metadata['total']
+    n_records = records.metadata['n_records']
+    if total < 1 or n_records < 1:
+        return response(404, msg='The query returned no records')
+
     # Transform records
     if fmt == 'MARCXML':
         data = records.to_marcxml()
@@ -70,10 +79,8 @@ def search(db):
     else:
         return Response(records.to_str(), 200, mimetype="text/html")
 
-    # Collate response data
-    total = records.metadata['total']
+    # Collate metadata
     created = records.metadata['created']
-    n_records = records.metadata['n_records']
     next_url = _get_next_url(query, size, position, fmt, total)
     prev_url = _get_previous_url(query, size, position, fmt)
     resp = {'data': data, 'message': None, 'next': next_url,
@@ -89,9 +96,9 @@ def _json_response(code, msg=None, data=None, **kwargs):
     resp = {'data': data, 'message': msg}
 
     if str(code)[0] in ['4', '5']:
-        resp.update({'status': 'error'})
+        resp.update({'status': 'error', 'status_code': code})
     else:
-        resp.update({'status': 'success'})
+        resp.update({'status': 'success', 'status_code': code})
         resp.update(kwargs)
 
     return Response(json.dumps(resp), code, mimetype="application/json")
@@ -100,7 +107,7 @@ def _json_response(code, msg=None, data=None, **kwargs):
 def _marcxml_response(code, msg=None, data=None, **kwargs):
     """Return an XML response."""
     if str(code)[0] in ['4', '5']:
-        xml = render_template('error.xml', msg=msg)
+        xml = render_template('error.xml', msg=msg, code=code)
     else:
         xml = data
     return Response(xml, code, mimetype="application/xml")

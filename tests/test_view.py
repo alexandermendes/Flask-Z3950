@@ -5,6 +5,7 @@ import pytest
 from mock import patch, MagicMock
 from flask_z3950 import view, blueprint
 
+
 class TestBlueprint():
 
 
@@ -95,7 +96,7 @@ class TestView():
         with app.test_request_context():
             url = view._get_next_url('q', 90, 10, 100)
 
-            assert url == None
+            assert url is None
 
 
     def test_prev_url_constructed_when_not_at_beginning(self, app):
@@ -109,7 +110,7 @@ class TestView():
         with app.test_request_context():
             url = view._get_previous_url('q', 1, 10)
 
-            assert url == None
+            assert url is None
 
 
     def test_raw_search_returns_error_when_bad_query(self, client):
@@ -233,6 +234,6 @@ class TestView():
         resp = view._handle_search_request('db', **kwargs)
         metadata = set(dataset.metadata.values())
 
-        assert resp[0] == None
+        assert resp[0] is None
         assert resp[1] == dataset
         assert metadata.issubset(set(resp[2].values()))

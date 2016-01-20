@@ -2,12 +2,20 @@
 
 import pytest
 from PyZ3950.zoom import QuerySyntaxError
+from flask_z3950.z3950 import Z3950Manager
 
 
 class TestZ3950Manager():
 
 
-    def test_multiple_databases_loaded(self, z3950_manager):
+    def test_z3950_manager_state_stored(self, app):
+        z3950_manager = app.extensions['z3950']['z3950_manager']
+
+        assert type(z3950_manager) == type(Z3950Manager())
+
+
+    def test_multiple_databases_loaded(self, app):
+        z3950_manager = app.extensions['z3950']['z3950_manager']
         db_names = z3950_manager.databases.keys()
 
         assert db_names == ['loc', 'copac']

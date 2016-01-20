@@ -20,13 +20,12 @@ requirements = ["Flask>=0.7.0",
                 "ply>=3.8.0, <4.0",
                 "pymarc>=3.0.4, <4.0",
                 "PyZ3950",
+                "mock",
+                "pytest>=2.8.0, <3.0",
+                "pytest-cov>=2.2.0, <3.0",
                 ]
 
 dependency_links = ["git+https://github.com/asl2/PyZ3950.git#egg=PyZ3950"]
-
-test_requirements = ["pytest-cov>=2.2.0, <3.0",
-                     "pytest>=2.8.4, <3.0",
-                     ]
 
 setup(
     name="Flask-Z3950",
@@ -55,6 +54,5 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Internet :: Z39.50",
     ],
-    tests_require=test_requirements,
     test_suite="tests",
 )

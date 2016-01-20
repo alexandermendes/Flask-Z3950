@@ -6,6 +6,7 @@ from PyZ3950.zoom import QuerySyntaxError
 
 class TestZ3950Manager():
 
+
     def test_multiple_databases_loaded(self, z3950_manager):
         db_names = z3950_manager.databases.keys()
 

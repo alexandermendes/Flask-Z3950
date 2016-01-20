@@ -6,18 +6,19 @@ Flask-Z3950
 A Flask plugin that provides Z39.50 integration.
 """
 
+import re
 import os
 from setuptools import setup
 
 
 version = re.search('^__version__\s*=\s*"(.*)"',
-                    open('hyperxl/__init__.py').read(),
+                    open('flask_z3950/__init__.py').read(),
                     re.M).group(1)
 
 
 try:
     here = os.path.dirname(__file__)
-    long_description = open(os.path.join(here, 'docs', 'long_desc.rst')).read()
+    long_description = open(os.path.join(here, 'docs', 'readme.rst')).read()
 except:
     long_description = ""
 
@@ -38,7 +39,7 @@ dependency_links = ["git+https://github.com/asl2/PyZ3950.git#egg=PyZ3950"]
 
 setup(
     name="Flask-Z3950",
-    version="0.1.3",
+    version=version,
     author="Alexander Mendes",
     author_email="alexanderhmendes@gmail.com",
     description="A Flask plugin that provides Z39.50 integration.",

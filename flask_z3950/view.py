@@ -7,135 +7,148 @@ from flask import current_app
 from flask.ext.z3950 import ZoomError
 
 
-def search(db):
-    """Return the results of a Z39.50 database search.
+def error_status(e):
+    """Return the HTTP status code associated with an exception"""
+    codes = {"QuerySyntaxError": 400,
+             "ValueError": 400,
+             "RuntimeError": 500}
+
+    name = e.__class__.__name__
+    if name not in codes.keys():
+        return 500
+
+    return codes[name]
+
+
+def search_marcxml(db):
+    """Return the results of a Z39.50 database search as MARCXML.
 
     :param db: The identifier of the database to be searched.
     """
-    fmt = request.args.get('format', '').upper()
+    try:
+        (msg, dataset, kwargs) = _handle_search_request(db, **request.args)
+    except (ZoomError, ValueError, RuntimeError) as e:
+        return render_template('error.xml', msg=str(e)), error_status(e)
 
-    def response(code, msg=None, data=None, **kwargs):
-        if fmt == 'MARCXML':
-            return _marcxml_response(code, msg=msg, data=data, **kwargs)
-        elif fmt == 'HTML':
-            return _html_response(code, msg=msg, data=data, **kwargs)
-        elif fmt == 'JSON':
-            return _json_response(code, msg=msg, data=data, **kwargs)
-        elif str(code)[0] in ['4', '5']:
-            abort(code)
+    resp = dataset.to_marcxml()
+    return Response(resp, 200, mimetype="application/xml")
 
-        return Response(data, code, mimetype="text/html")
 
-    # Validate parameters
-    query = request.args.get('query')
+def search_raw(db):
+    """Return the results of a Z39.50 database search as raw data.
+
+    :param db: The identifier of the database to be searched.
+    """
+    try:
+        (msg, dataset, kwargs) = _handle_search_request(db, **request.args)
+    except (ZoomError, ValueError, RuntimeError) as e:
+        abort(error_status(e))
+
+    return Response(dataset.to_str(), 200, mimetype="text/html")
+
+
+def search_html(db):
+    """Return the results of a Z39.50 database search as HTML.
+
+    :param db: The identifier of the database to be searched.
+    """
+    try:
+        (msg, dataset, kwargs) = _handle_search_request(db, **request.args)
+    except (ZoomError, ValueError, RuntimeError) as e:
+        abort(error_status(e))
+
+    data = dataset.to_html()
+    resp = render_template('success.html', data=data, **kwargs)
+    return Response(resp, 200, mimetype="text/html")
+
+
+def search_json(db):
+    """Return the results of a Z39.50 database search as JSON.
+
+    :param db: The identifier of the database to be searched.
+    """
+    resp = {}
+    try:
+        (msg, dataset, kwargs) = _handle_search_request(db, **request.args)
+    except (ZoomError, ValueError, RuntimeError) as e:
+        resp = {'status': 'error', 'data': None, 'message': str(e)}
+        code = error_status(e)
+
+    if not resp:
+        code = 200
+        data = json.loads(dataset.to_json())['data']
+        resp = {'status': 'success', 'data': data, 'message': msg}
+        resp.update(kwargs)
+
+    json_resp = json.dumps(resp, indent=4, sort_keys=True)
+    return Response(json_resp, code, mimetype="application/json")
+
+
+def _handle_search_request(db, **kwargs):
+    """Handle a search request and return the result.
+
+    :returns: A tuple containing status code, message, data and any arbitrary
+        keyword arguments.
+    """
+    query = kwargs.get('query')
     if not query:
-        return response(400, msg='A query is required')
+        raise ValueError('The "query" parameter is missing')
 
     try:
-        position = int(request.args.get('position', 1))
+        position = int(kwargs.get('position', 1))
     except ValueError:
-        return response(400, msg='Position must be a valid integer')
-
+        raise ValueError('The "position" parameter must be a valid integer')
     if position < 1:
-        return response(400, msg='Position must be greater than zero')
+        raise ValueError('The "position" parameter must be a positive integer')
 
     try:
-        size = int(request.args.get('size', 10))
+        size = int(kwargs.get('size', 10))
     except ValueError:
-        return response(400, msg='Size must be a valid integer')
-
+        raise ValueError('The "size" parameter must be a valid integer')
     if size < 1:
-        return response(400, msg='Size must be greater than zero')
+        raise ValueError('The "size" parameter must be a positive integer')
 
-    # Retrieve database
     try:
         z3950_manager = current_app.extensions['z3950']['z3950_manager']
-    except KeyError:
-        return response(500, msg='Z3950Manager not configured')
+    except KeyError:  # pragma: no cover
+        raise RuntimeError('The Z3950Manager has not been initialised')
 
     try:
         z3950_db = z3950_manager.databases[db]
     except KeyError:
-        return response(400, msg='Database not found')
+        raise ValueError('No database with that identifier could be found')
 
     # Perform search
-    try:
-        records = z3950_db.search(query, position=position, size=size)
-    except ZoomError as e:
-        return response(400, msg=e)
-
-    total = records.metadata['total']
-    n_records = records.metadata['n_records']
-    if total < 1 or n_records < 1:
-        return response(404, msg='The query returned no records')
-
-    # Transform records
-    if fmt == 'MARCXML':
-        data = records.to_marcxml()
-    elif fmt == 'HTML':
-        data = records.to_html()
-    elif fmt == 'JSON':
-        data = records.to_json()
-    else:
-        return Response(records.to_str(), 200, mimetype="text/html")
-
+    dataset = z3950_db.search(query, position=position, size=size)
+    print dataset
     # Collate metadata
-    created = records.metadata['created']
-    next_url = _get_next_url(query, size, position, fmt, total)
-    prev_url = _get_previous_url(query, size, position, fmt)
-    resp = {'data': data, 'message': None, 'next': next_url,
-            'previous': prev_url, 'created': created, 'total': total,
-            'n_records': n_records, 'step_size': size, 'position': position}
+    created = dataset.metadata['created']
+    total = dataset.metadata['total']
+    n_records = dataset.metadata['n_records']
+    next_url = _get_next_url(query, position, size, total)
+    prev_url = _get_previous_url(query, position, size)
+    metadata = {'message': None, 'next': next_url, 'previous': prev_url,
+                'created': created, 'total': total, 'n_records': n_records,
+                'size': size, 'position': position}
 
-    # Respond
-    return response(200, **resp)
-
-
-def _json_response(code, msg=None, data=None, **kwargs):
-    """Return a JSON response."""
-    resp = {'data': data, 'message': msg}
-
-    if str(code)[0] in ['4', '5']:
-        resp.update({'status': 'error', 'status_code': code})
-    else:
-        resp.update({'status': 'success', 'status_code': code})
-        resp.update(kwargs)
-
-    return Response(json.dumps(resp), code, mimetype="application/json")
+    return (None, dataset, metadata)
 
 
-def _marcxml_response(code, msg=None, data=None, **kwargs):
-    """Return an XML response."""
-    if str(code)[0] in ['4', '5']:
-        xml = render_template('error.xml', msg=msg, code=code)
-    else:
-        xml = data
-    return Response(xml, code, mimetype="application/xml")
-
-
-def _html_response(code, msg=None, data=None, **kwargs):
-    """Return an HTML response."""
-    if str(code)[0] in ['4', '5']:
-        abort(code)
-    html = render_template('success.html', data=data, **kwargs)
-    return Response(html, code, mimetype="text/html")
-
-
-def _get_next_url(query, size, position, fmt, total):
+def _get_next_url(query, position, size, total):
     """Return the URL to retrieve the next chunk of results."""
     next_pos = position + size
     if next_pos >= total:
         return None
 
-    url = '{0}?query={1}&position={2}&size={3}&format={4}'
-    return url.format(request.base_url, query, next_pos, size, fmt)
+    url = '{0}?query={1}&position={2}&size={3}'
+    return url.format(request.base_url, query, next_pos, size)
 
 
-def _get_previous_url(query, size, position, fmt):
+def _get_previous_url(query, position, size):
     """Return the URL to retrieve the previous chunk of results."""
     if position < 2:
         return None
 
     prev_pos = position - size if position - size > 0 else 1
-    url = '{0}?query={1}&position={2}&size={3}&format={4}'
-    return url.format(request.base_url, query, prev_pos, size, fmt)
+    url = '{0}?query={1}&position={2}&size={3}'
+    return url.format(request.base_url, query, prev_pos, size)

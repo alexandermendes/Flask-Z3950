@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <errors>
-  <error>
-    <code>{{code}}</code>
-    <message>{{msg}}</message>
-  </error>
+  <error>{{ msg }}</error>
 </errors>

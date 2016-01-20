@@ -4,7 +4,7 @@
 import re
 import jinja2
 from flask import Blueprint
-from .view import search
+from .view import search_marcxml, search_html, search_json, search_raw
 
 
 class Z3950Blueprint(Blueprint):
@@ -21,7 +21,10 @@ class Z3950Blueprint(Blueprint):
 
         super(Z3950Blueprint, self).__init__(**defaults)
 
-        self.add_url_rule('/search/<db>', view_func=search)
+        self.add_url_rule('/search/<db>/marcxml', view_func=search_marcxml)
+        self.add_url_rule('/search/<db>/html', view_func=search_html)
+        self.add_url_rule('/search/<db>/json', view_func=search_json)
+        self.add_url_rule('/search/<db>/raw', view_func=search_raw)
         self.add_app_template_filter(self.humanize_int)
 
 

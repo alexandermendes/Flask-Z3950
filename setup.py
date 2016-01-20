@@ -9,11 +9,18 @@ A Flask plugin that provides Z39.50 integration.
 import os
 from setuptools import setup
 
+
+version = re.search('^__version__\s*=\s*"(.*)"',
+                    open('hyperxl/__init__.py').read(),
+                    re.M).group(1)
+
+
 try:
     here = os.path.dirname(__file__)
     long_description = open(os.path.join(here, 'docs', 'long_desc.rst')).read()
 except:
     long_description = ""
+
 
 requirements = ["Flask>=0.7.0",
                 "lxml>=3.5.0, <4.0",
@@ -25,7 +32,9 @@ requirements = ["Flask>=0.7.0",
                 "pytest-cov>=2.2.0, <3.0",
                 ]
 
+
 dependency_links = ["git+https://github.com/asl2/PyZ3950.git#egg=PyZ3950"]
+
 
 setup(
     name="Flask-Z3950",

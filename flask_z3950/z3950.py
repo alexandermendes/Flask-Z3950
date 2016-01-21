@@ -97,7 +97,7 @@ class Z3950Database(object):
         conn = self._connect()
         try:
             q = zoom.Query(syntax, query)
-        except (zoom.QuerySyntaxError) as e: # pragma: no cover
+        except (zoom.QuerySyntaxError) as e:  # pragma: no cover
             raise zoom.QuerySyntaxError("The query could not be parsed.")
 
         start = int(position)

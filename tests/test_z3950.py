@@ -42,7 +42,7 @@ class TestZ3950Database():
         conn = z3950_db._connect()
         expected = ['Voyager', 'USMARC', 'F']
         returned = [mock_conn.databaseName, mock_conn.preferredRecordSyntax,
-                    mock_conn.elementSetName ]
+                    mock_conn.elementSetName]
 
         assert expected == returned
 

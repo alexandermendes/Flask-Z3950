@@ -3,7 +3,7 @@
 Flask-Z3950
 -----------
 
-A Flask plugin that provides Z39.50 integration.
+Z39.50 integration for Flask applications.
 """
 
 import re
@@ -42,7 +42,7 @@ setup(
     version=version,
     author="Alexander Mendes",
     author_email="alexanderhmendes@gmail.com",
-    description="A Flask plugin that provides Z39.50 integration.",
+    description="Z39.50 integration for Flask applications.",
     license="BSD",
     url="https://github.com/alexandermendes/Flask-Z3950",
     packages=['flask_z3950'],

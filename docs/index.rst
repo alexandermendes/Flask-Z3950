@@ -3,8 +3,7 @@ Flask-Z3950
 
 .. module:: flask_z3950
 
-
-A `Flask`_ plugin for `Z3950`_ integration.
+`Z3950`_ integration for Flask applications.
 
 
 Installation

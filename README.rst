@@ -3,7 +3,7 @@ Flask-Z3950
 
 |travis| |coveralls| |pypi|
 
-A `Flask`_ plugin for `Z3950`_ integration.
+`Z3950`_ integration for Flask applications.
 
 
 Documentation

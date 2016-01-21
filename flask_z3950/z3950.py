@@ -86,11 +86,11 @@ class Z3950Database(object):
         return conn
 
 
-    def search(self, query, position=1, size=10, syntax='CCL'):
+    def search(self, query, position=0, size=10, syntax='CCL'):
         """Return the results of a database query.
 
         :param query: The database query.
-        :param position: The position of the first record.
+        :param position: The position of the first record (zero-based index).
         :param size: The maximum number of records to return.
         :param syntax: The syntax of the query, either CCL, S-CCL, CQL, S-CQL,
             PQF, C2, ZSQL or CQL-TREE.
@@ -100,7 +100,7 @@ class Z3950Database(object):
         conn = self._connect()
         try:
             q = zoom.Query(syntax, query)
-        except (zoom.QuerySyntaxError) as e:
+        except (zoom.QuerySyntaxError) as e: # pragma: no cover
             raise zoom.QuerySyntaxError("The query could not be parsed.")
 
         start = int(position)

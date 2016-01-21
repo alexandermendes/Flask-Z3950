@@ -26,7 +26,7 @@ def search_marcxml(db):
     :param db: The identifier of the database to be searched.
     """
     try:
-        (msg, dataset, kwargs) = _handle_search_request(db, **request.args)
+        (msg, dataset, kwargs) = _handle_search_request(db, request.args)
     except (ZoomError, ValueError, RuntimeError) as e:
         return render_template('error.xml', msg=str(e)), error_status(e)
 
@@ -40,7 +40,7 @@ def search_raw(db):
     :param db: The identifier of the database to be searched.
     """
     try:
-        (msg, dataset, kwargs) = _handle_search_request(db, **request.args)
+        (msg, dataset, kwargs) = _handle_search_request(db, request.args)
     except (ZoomError, ValueError, RuntimeError) as e:
         abort(error_status(e))
 
@@ -53,7 +53,7 @@ def search_html(db):
     :param db: The identifier of the database to be searched.
     """
     try:
-        (msg, dataset, kwargs) = _handle_search_request(db, **request.args)
+        (msg, dataset, kwargs) = _handle_search_request(db, request.args)
     except (ZoomError, ValueError, RuntimeError) as e:
         abort(error_status(e))
 
@@ -69,7 +69,8 @@ def search_json(db):
     """
     resp = {}
     try:
-        (msg, dataset, kwargs) = _handle_search_request(db, **request.args)
+        print request.args
+        (msg, dataset, kwargs) = _handle_search_request(db, request.args)
     except (ZoomError, ValueError, RuntimeError) as e:
         resp = {'status': 'error', 'data': None, 'message': str(e)}
         code = error_status(e)
@@ -84,7 +85,7 @@ def search_json(db):
     return Response(json_resp, code, mimetype="application/json")
 
 
-def _handle_search_request(db, **kwargs):
+def _handle_search_request(db, kwargs):
     """Handle a search request and return the result.
 
     :returns: A tuple containing status code, message, data and any arbitrary

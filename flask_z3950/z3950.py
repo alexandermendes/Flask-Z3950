@@ -31,9 +31,6 @@ class Z3950Manager(object):
             db = Z3950Database(**config)
             self.databases[name] = db
 
-        # Store application specific state
-        if not hasattr(app, 'extensions'):
-            app.extensions = {}
         app.extensions['z3950'] = {'z3950_manager': self}
 
 

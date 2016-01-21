@@ -1,6 +1,7 @@
 # -*- coding: utf8 -*-
 """Dataset module for Flask-Z3950."""
 
+import time
 import json
 import os
 import pymarc
@@ -10,11 +11,17 @@ from lxml import etree
 class Dataset(object):
     """Dataset class with functions for transforming raw record data.
 
+    :param total: The total size of the result set from which record_data
+        was sliced.
     :param record_data: A list of raw record data.
+
+    :ivar metadata: A dictionary of metadata for the dataset.
     """
 
-    def __init__(self, record_data):
+    def __init__(self, record_data, total=None):
         self.record_data = record_data
+        self.metadata = {'created': time.time(), 'total': total,
+                         'n_records': len(record_data)}
 
 
     def to_str(self):
@@ -46,10 +53,12 @@ class Dataset(object):
     def to_json(self, **kwargs):
         """Return a JSON representation of any MARC records.
 
-        :param ``**kwargs``: Arbitrary keyword arguments to add to the JSON.
+        :param ``**kwargs``: Arbitrary keyword arguments that will be added to
+            the returned JSON string.
         """
         reclist = [pymarc.Record(data=r).as_dict() for r in self.record_data]
-        recdict = {"records": reclist}
+        recdict = {"data": reclist}
+        recdict.update(self.metadata)
         recdict.update(kwargs)
         return json.dumps(recdict)
 

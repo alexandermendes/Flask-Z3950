@@ -1,0 +1,18 @@
+<div class="z3950-records">
+    {{ data|safe }}
+</div>
+<div class="row text-center" id="z3950-pagination">
+    <p>
+        <small>
+            {% if previous %}<a href="{{previous}}">{% endif %}&lt; Previous{% if previous %}</a>{% endif %}
+            {% set start = position|humanize_int %}
+            {% set n = (position + size - 1)|humanize_int %}
+            {% set end = total|humanize_int %}
+            {% if position + n_records >= total %}
+             | {{ start }} to {{ end }} of {{ end }} |
+            {% else %}
+             | {{ start }} to {{ n }} of {{ end }} |
+            {% endif %}
+            {% if next %}<a href="{{next}}">{% endif %}Next &gt;{% if next %}</a>{% endif %}
+        </small>
+</div>

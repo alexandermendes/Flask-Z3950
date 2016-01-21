@@ -31,6 +31,19 @@ class Z3950Manager(object):
             db = Z3950Database(**config)
             self.databases[name] = db
 
+        app.extensions['z3950'] = {'z3950_manager': self}
+
+
+    def register_blueprint(self, *args, **kwargs):
+        """Register blueprint.
+
+        :param ``*args``: Variable length argument list.
+        :param ``**kwargs``: Arbitrary keyword arguments.
+        """
+        from .blueprint import Z3950Blueprint
+        blueprint = Z3950Blueprint()
+        self.app.register_blueprint(blueprint, *args, **kwargs)
+
 
 class Z3950Database(object):
     """Z39.50 database class to query a Z39.50 database.
@@ -70,11 +83,11 @@ class Z3950Database(object):
         return conn
 
 
-    def search(self, query, position=1, size=10, syntax='CCL'):
+    def search(self, query, position=0, size=10, syntax='CCL'):
         """Return the results of a database query.
 
         :param query: The database query.
-        :param position: The position of the first record.
+        :param position: The position of the first record (zero-based index).
         :param size: The maximum number of records to return.
         :param syntax: The syntax of the query, either CCL, S-CCL, CQL, S-CQL,
             PQF, C2, ZSQL or CQL-TREE.
@@ -84,11 +97,11 @@ class Z3950Database(object):
         conn = self._connect()
         try:
             q = zoom.Query(syntax, query)
-        except (zoom.QuerySyntaxError) as e:
+        except (zoom.QuerySyntaxError) as e:  # pragma: no cover
             raise zoom.QuerySyntaxError("The query could not be parsed.")
 
-        s = int(position)
-        e = s + int(size)
-        rs = conn.search(q)[s:e]
+        start = int(position)
+        end = start + int(size)
+        rs = conn.search(q)
 
-        return Dataset([r.data for r in rs])
+        return Dataset([r.data for r in rs[start:end]], total=len(rs))

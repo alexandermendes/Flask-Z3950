@@ -1,4 +1,14 @@
-Here is a full list of changes between each Flask-Z3950 release.
+Here is a list of noteable changes between each Flask-Z3950 release.
+
+Version 0.2.0
+-------------
+
+Released January 21th, 2016
+
+- Add default search view functions.
+- Add metadata to datasets.
+- Fix inconsistencies in setup.
+
 
 Version 0.1.1
 -------------

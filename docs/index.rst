@@ -9,7 +9,14 @@ Flask-Z3950
 Installation
 ============
 
-Flask-Z3950 is available on PyPi:
+Install the required development packages:
+
+.. code-block:: console
+
+    sudo apt-get install libxml2-dev libxslt-dev python-dev lib32z1-dev
+
+
+Now, install Flask-Z3950:
 
 .. code-block:: console
 

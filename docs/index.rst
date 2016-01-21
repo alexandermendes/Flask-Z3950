@@ -13,7 +13,7 @@ Install the required development packages:
 
 .. code-block:: console
 
-    sudo apt-get install libxml2-dev libxslt-dev python-dev lib32z1-dev
+    $ sudo apt-get install libxml2-dev libxslt-dev python-dev lib32z1-dev
 
 
 Now, install Flask-Z3950:

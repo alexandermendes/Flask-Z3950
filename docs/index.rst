@@ -199,22 +199,22 @@ The following status codes could be returned from all search functions:
 
     .. sourcecode:: http
 
-       GET /search/loc/raw?query=(ti="cheese%20shop") HTTP/1.1
+        GET /search/loc/raw?query=(ti="cheese%20shop") HTTP/1.1
 
     **Example response**:
 
     .. sourcecode:: http
 
-       HTTP/1.1 200 OK
-       Content-Type: text/html
+        HTTP/1.1 200 OK
+        Content-Type: text/html
 
-       01488cam 22003733a 450000100090000000500170000900800410002690600450
-       0067925006400112955003700176010001700213042001400230035002400244040
-       0032002680200025003000200022003250350021003470500029003681000018003
-       9724500440041525000400045926000440049930000270054349000310057049000
-       2600601500004200627500003200669500006100701520019500762650002700...
-       aAames, Avery. 14 aThe long quiche goodbye /cAvery Aames.
-       aBerkley Prime Crime mass-market ed. aNew York : bBerkley Prime ...
+        01488cam 22003733a 450000100090000000500170000900800410002690600450
+        0067925006400112955003700176010001700213042001400230035002400244040
+        0032002680200025003000200022003250350021003470500029003681000018003
+        9724500440041525000400045926000440049930000270054349000310057049000
+        2600601500004200627500003200669500006100701520019500762650002700...
+        aAames, Avery. 14 aThe long quiche goodbye /cAvery Aames.
+        aBerkley Prime Crime mass-market ed. aNew York : bBerkley Prime ...
 
 
 .. http:get:: /search/(db)/json
@@ -225,53 +225,53 @@ The following status codes could be returned from all search functions:
 
     .. sourcecode:: http
 
-       GET /search/loc/json?query=(ti="cheese%20shop") something HTTP/1.1
+        GET /search/loc/json?query=(ti="cheese%20shop") HTTP/1.1
 
     **Example response**:
 
     .. sourcecode:: http
 
-       HTTP/1.1 200 OK
-       Content-Type: application/json
+        HTTP/1.1 200 OK
+        Content-Type: application/json
 
-     {
-         "created": 1453334119.273325,
-         "data": [
-             {
-                 "fields": [
-                     {
-                         "001": "18392793"
-                     },
-                     ...
-                     {
-                         "245": {
-                             "ind1": "1",
-                             "ind2": "0",
-                             "subfields": [
-                                 {
-                                     "a": "Days of wine and roquefort /"
-                                 },
-                                 {
-                                     "c": "Avery Aames."
-                                 }
-                             ]
-                         }
-                     },
-                     ...
-                 ]
-                 "leader": "02373cam  22004453i 4500"
-             },
-             ...
-         ],
-         "message": null,
-         "n_records": 10,
-         "next": ".../search/loc/json?query=ok&position=11&size=10",
-         "position": 1,
-         "previous": null,
-         "size": 10,
-         "status": "success",
-         "total": 10000
-     }
+        {
+            "created": 1453334119.273325,
+            "data": [
+                {
+                    "fields": [
+                        {
+                            "001": "18392793"
+                        },
+                        ...
+                        {
+                            "245": {
+                                "ind1": "1",
+                                "ind2": "0",
+                                "subfields": [
+                                    {
+                                        "a": "Days of wine and roquefort /"
+                                    },
+                                    {
+                                        "c": "Avery Aames."
+                                    }
+                                ]
+                            }
+                        },
+                        ...
+                    ]
+                    "leader": "02373cam  22004453i 4500"
+                },
+                ...
+            ],
+            "message": null,
+            "n_records": 10,
+            "next": ".../search/loc/json?query=ok&position=11&size=10",
+            "position": 1,
+            "previous": null,
+            "size": 10,
+            "status": "success",
+            "total": 10000
+        }
 
 .. http:get:: /search/(db)/html
 
@@ -281,39 +281,39 @@ The following status codes could be returned from all search functions:
 
     .. sourcecode:: http
 
-       GET /search/loc/html?query=(ti="cheese%20shop") something HTTP/1.1
+        GET /search/loc/html?query=(ti="cheese%20shop") HTTP/1.1
 
     **Example response**:
 
     .. sourcecode:: http
 
-       HTTP/1.1 200 OK
-       Content-Type: text/html
+        HTTP/1.1 200 OK
+        Content-Type: text/html
 
-       <div class="z3950-records">
-         <div class="row z3950-record">
-           <div class="col-xs-8" id="18187332">
-             <p>
-               <span class="title"> To brie or not to brie / </span>
-               <br/>
-               <span class="author"> Aames, Avery.     </span>
-               <br/>
-               <small>
-                 <span class="publisher"> Berkley Prime Crime,   </span>
-                 <span class="pubyear">2013.  </span>
-                 <br/>
-                 <span class="physdesc">x, 325 p. ; </span>
-                 <br/>
-               </small>
-             </p>
-           </div>
-           <div class="col-xs-4">
-             <a href="#" data-control-num="18187332"
-             class="btn btn-success btn-z3950 pull-right">Select</a>
-           </div>
-         </div>
-         ...
-       </div>
+        <div class="z3950-records">
+          <div class="row z3950-record">
+            <div class="col-xs-8" id="18187332">
+              <p>
+                <span class="title"> To brie or not to brie / </span>
+                <br/>
+                <span class="author"> Aames, Avery.     </span>
+                <br/>
+                <small>
+                  <span class="publisher"> Berkley Prime Crime,   </span>
+                  <span class="pubyear">2013.  </span>
+                  <br/>
+                  <span class="physdesc">x, 325 p. ; </span>
+                  <br/>
+                </small>
+              </p>
+            </div>
+            <div class="col-xs-4">
+              <a href="#" data-control-num="18187332"
+              class="btn btn-success btn-z3950 pull-right">Select</a>
+            </div>
+          </div>
+          ...
+        </div>
 
 
 .. http:get:: /search/(db)/marcxml
@@ -324,28 +324,28 @@ The following status codes could be returned from all search functions:
 
     .. sourcecode:: http
 
-       GET /search/loc/marcxml?query=(ti="cheese%20shop") HTTP/1.1
+        GET /search/loc/marcxml?query=(ti="cheese%20shop") HTTP/1.1
 
     **Example response**:
 
     .. sourcecode:: http
 
-       HTTP/1.1 200 OK
-       Content-Type: application/xml
+        HTTP/1.1 200 OK
+        Content-Type: application/xml
 
-       <collection xmlns="http://www.loc.gov/MARC21/slim">
-         <record>
-           <leader>01200cam 2200349 a 4500</leader>
-           <controlfield tag="001">17349144</controlfield>
-           ...
-           <datafield ind1="1" ind2="0" tag="245">
-             <subfield code="a">Clobbered by Camembert /</subfield>
-             <subfield code="c">Avery Aames.</subfield>
-           </datafield>
-           ...
-         </record>
-         ...
-       </collection>
+        <collection xmlns="http://www.loc.gov/MARC21/slim">
+          <record>
+            <leader>01200cam 2200349 a 4500</leader>
+            <controlfield tag="001">17349144</controlfield>
+            ...
+            <datafield ind1="1" ind2="0" tag="245">
+              <subfield code="a">Clobbered by Camembert /</subfield>
+              <subfield code="c">Avery Aames.</subfield>
+            </datafield>
+            ...
+          </record>
+          ...
+        </collection>
 
 Errors
 ------
@@ -358,20 +358,20 @@ Errors
 
     .. sourcecode:: http
 
-      GET /search/loc/json?query= HTTP/1.1
+        GET /search/loc/json?query= HTTP/1.1
 
     **Example response**:
 
     .. sourcecode:: http
 
-      HTTP/1.1 400 BAD REQUEST
-      Content-Type: application/json
+        HTTP/1.1 400 BAD REQUEST
+        Content-Type: application/json
 
-      {
-          "data": null,
-          "message": "The \"query\" parameter is missing",
-          "status": "error"
-      }
+        {
+            "data": null,
+            "message": "The \"query\" parameter is missing",
+            "status": "error"
+        }
 
 .. http:get:: /search/(db)/marcxml
 
@@ -381,26 +381,26 @@ Errors
 
     .. sourcecode:: http
 
-       GET /search/loc/marcxml?query= HTTP/1.1
+        GET /search/loc/marcxml?query= HTTP/1.1
 
     **Example response**:
 
     .. sourcecode:: http
 
-       HTTP/1.1 400 BAD REQUEST
-       Content-Type: application/xml
+        HTTP/1.1 400 BAD REQUEST
+        Content-Type: application/xml
 
-       <?xml version="1.0" encoding="utf-8"?>
-       <errors>
-         <error>The "query" parameter is missing</error>
-       </errors>
+        <?xml version="1.0" encoding="utf-8"?>
+        <errors>
+          <error>The "query" parameter is missing</error>
+        </errors>
 
 
 .. note::
 
-    If an error occurs when querying the HTML and RAW data endpoints the
-    request is aborted with a 400 or 500 status code (depending on the
-    cause of the error).
+    If an error occurs while sending a request to the HTML or RAW data
+    endpoints the request is aborted with a 400 or 500 status code
+    (depending on the cause of the error).
 
 Changelog
 =========

@@ -70,7 +70,6 @@ def search_json(db):
     """
     resp = {}
     try:
-        print request.args
         (msg, dataset, kwargs) = _handle_search_request(db, request.args)
     except (ZoomError, ValueError, RuntimeError) as e:
         resp = {'status': 'error', 'data': None, 'message': str(e)}

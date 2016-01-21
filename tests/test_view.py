@@ -58,32 +58,35 @@ class TestView():
     def test_correct_json_data_included_with_successful_query(self, handle_req,
                                                               search_response,
                                                               app):
-        handle_req.return_value = search_response
-        res = view.search_json('db')
-        resp_data = json.loads(res.data)['data']
-        original_data = json.loads(search_response[1].to_json())['data']
+        with app.test_request_context():
+            handle_req.return_value = search_response
+            res = view.search_json('db')
+            resp_data = json.loads(res.data)['data']
+            original_data = json.loads(search_response[1].to_json())['data']
 
-        assert resp_data == original_data
+            assert resp_data == original_data
 
 
     @patch('flask_z3950.view._handle_search_request')
     def test_correct_xml_data_included_with_successful_query(self, handle_req,
                                                              search_response,
                                                              app):
-        handle_req.return_value = search_response
-        res = view.search_marcxml('db')
+        with app.test_request_context():
+            handle_req.return_value = search_response
+            res = view.search_marcxml('db')
 
-        assert res.data == search_response[1].to_marcxml()
+            assert res.data == search_response[1].to_marcxml()
 
 
     @patch('flask_z3950.view._handle_search_request')
     def test_correct_html_data_included_with_successful_query(self, handle_req,
                                                               search_response,
                                                               app):
-        handle_req.return_value = search_response
-        res = view.search_html('db')
+        with app.test_request_context():
+            handle_req.return_value = search_response
+            res = view.search_html('db')
 
-        assert search_response[1].to_html() in res.data
+            assert search_response[1].to_html() in res.data
 
 
     def test_next_url_constructed_when_end_not_reached(self, app):

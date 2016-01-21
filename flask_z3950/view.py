@@ -28,7 +28,8 @@ def search_marcxml(db):
     try:
         (msg, dataset, kwargs) = _handle_search_request(db, request.args)
     except (ZoomError, ValueError, RuntimeError) as e:
-        return render_template('error.xml', msg=str(e)), error_status(e)
+        resp = render_template('error.xml', msg=str(e))
+        return Response(resp, error_status(e), mimetype="application/xml")
 
     resp = dataset.to_marcxml()
     return Response(resp, 200, mimetype="application/xml")

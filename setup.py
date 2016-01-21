@@ -27,14 +27,11 @@ requirements = ["Flask>=0.7.0",
                 "lxml>=3.5.0, <4.0",
                 "ply>=3.8.0, <4.0",
                 "pymarc>=3.0.4, <4.0",
-                "PyZ3950",
+                "mollyZ3950==2.04-molly1",  # PyZ3950 on pypi is broken
                 "mock",
                 "pytest>=2.8.0, <3.0",
                 "pytest-cov>=2.2.0, <3.0",
                 ]
-
-
-dependency_links = ["git+https://github.com/asl2/PyZ3950.git#egg=PyZ3950"]
 
 
 setup(
@@ -51,7 +48,6 @@ setup(
     include_package_data=True,
     platforms="any",
     install_requires=requirements,
-    dependency_links=dependency_links,
     classifiers=[
         "Development Status :: 4 - Beta",
         "Environment :: Web Environment",

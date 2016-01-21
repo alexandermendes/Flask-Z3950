@@ -161,7 +161,7 @@ class TestView():
     def test_search_raises_error_when_query_missing(self):
         kwargs = {'query': '', 'size': 10, 'position': 1}
         with pytest.raises(ValueError) as excinfo:
-            view._handle_search_request('loc', **kwargs)
+            view._handle_search_request('loc', kwargs)
 
         msg = 'The "query" parameter is missing'
         assert str(excinfo.value) == msg
@@ -170,7 +170,7 @@ class TestView():
     def test_search_raises_error_when_size_is_less_then_one(self):
         kwargs = {'query': 'q', 'size': 0, 'position': 1}
         with pytest.raises(ValueError) as excinfo:
-            view._handle_search_request('loc', **kwargs)
+            view._handle_search_request('loc', kwargs)
 
         msg = 'The "size" parameter must be a positive integer'
         assert str(excinfo.value) == msg
@@ -179,7 +179,7 @@ class TestView():
     def test_search_raises_error_when_size_is_not_a_number(self):
         kwargs = {'query': 'q', 'size': 'not a number', 'position': 1}
         with pytest.raises(ValueError) as excinfo:
-            view._handle_search_request('loc', **kwargs)
+            view._handle_search_request('loc', kwargs)
 
         msg = 'The "size" parameter must be a valid integer'
         assert str(excinfo.value) == msg
@@ -188,7 +188,7 @@ class TestView():
     def test_search_raises_error_when_position_is_less_then_one(self):
         kwargs = {'query': 'q', 'size': 10, 'position': 0}
         with pytest.raises(ValueError) as excinfo:
-            view._handle_search_request('loc', **kwargs)
+            view._handle_search_request('loc', kwargs)
 
         msg = 'The "position" parameter must be a positive integer'
         assert str(excinfo.value) == msg
@@ -197,7 +197,7 @@ class TestView():
     def test_search_raises_error_when_position_is_not_a_number(self):
         kwargs = {'query': 'q', 'size': 10, 'position': 'not a number'}
         with pytest.raises(ValueError) as excinfo:
-            view._handle_search_request('loc', **kwargs)
+            view._handle_search_request('loc', kwargs)
 
         msg = 'The "position" parameter must be a valid integer'
         assert str(excinfo.value) == msg
@@ -207,7 +207,7 @@ class TestView():
         app.extensions = {}
         kwargs = {'query': 'q', 'size': 10, 'position': 1}
         with pytest.raises(RuntimeError) as excinfo:
-            view._handle_search_request('loc', **kwargs)
+            view._handle_search_request('loc', kwargs)
 
         msg = 'The Z3950Manager has not been initialised'
         assert str(excinfo.value) == msg
@@ -217,7 +217,7 @@ class TestView():
         with client as c:
             kwargs = {'query': 'q', 'size': 10, 'position': 1}
             with pytest.raises(ValueError) as excinfo:
-                view._handle_search_request('nope', **kwargs)
+                view._handle_search_request('nope', kwargs)
 
             msg = 'No database with that identifier could be found'
             assert str(excinfo.value) == msg
@@ -231,7 +231,7 @@ class TestView():
         mock_manager.databases = {'db': mock_db}
         app.extensions['z3950']['z3950_manager'] = mock_manager
         kwargs = {'query': 'q', 'size': 10, 'position': 1}
-        resp = view._handle_search_request('db', **kwargs)
+        resp = view._handle_search_request('db', kwargs)
         metadata = set(dataset.metadata.values())
 
         assert resp[0] is None

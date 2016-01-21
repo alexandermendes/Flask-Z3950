@@ -121,7 +121,7 @@ def _handle_search_request(db, kwargs):
         raise ValueError('No database with that identifier could be found')
 
     # Perform search
-    dataset = z3950_db.search(query, position=position, size=size)
+    dataset = z3950_db.search(query, position=(position-1), size=size)
     print dataset
     # Collate metadata
     created = dataset.metadata['created']

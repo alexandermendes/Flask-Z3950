@@ -47,10 +47,11 @@ class TestView():
     def test_correct_raw_data_included_with_successful_query(self, handle_req,
                                                              search_response,
                                                              app):
-        handle_req.return_value = search_response
-        res = view.search_raw('db')
+        with app.test_request_context():
+            handle_req.return_value = search_response
+            res = view.search_raw('db')
 
-        assert res.data == ''.join(search_response[1].record_data)
+            assert res.data == ''.join(search_response[1].record_data)
 
 
     @patch('flask_z3950.view._handle_search_request')
@@ -204,17 +205,18 @@ class TestView():
 
 
     def test_search_raises_error_when_z3950manager_not_initialised(self, app):
-        app.extensions = {}
-        kwargs = {'query': 'q', 'size': 10, 'position': 1}
-        with pytest.raises(RuntimeError) as excinfo:
-            view._handle_search_request('loc', kwargs)
+        with app.app_context():
+            app.extensions = {}
+            kwargs = {'query': 'q', 'size': 10, 'position': 1}
+            with pytest.raises(RuntimeError) as excinfo:
+                view._handle_search_request('loc', kwargs)
 
-        msg = 'The Z3950Manager has not been initialised'
-        assert str(excinfo.value) == msg
+            msg = 'The Z3950Manager has not been initialised'
+            assert str(excinfo.value) == msg
 
 
-    def test_search_raises_error_when_db_not_found(self, client):
-        with client as c:
+    def test_search_raises_error_when_db_not_found(self, app):
+        with app.app_context():
             kwargs = {'query': 'q', 'size': 10, 'position': 1}
             with pytest.raises(ValueError) as excinfo:
                 view._handle_search_request('nope', kwargs)
@@ -225,15 +227,16 @@ class TestView():
 
     def test_successful_search_response_contains_correct_data(self, app,
                                                               dataset):
-        mock_db = MagicMock()
-        mock_db.search.return_value = dataset
-        mock_manager = MagicMock()
-        mock_manager.databases = {'db': mock_db}
-        app.extensions['z3950']['z3950_manager'] = mock_manager
-        kwargs = {'query': 'q', 'size': 10, 'position': 1}
-        resp = view._handle_search_request('db', kwargs)
-        metadata = set(dataset.metadata.values())
+        with app.app_context():
+            mock_db = MagicMock()
+            mock_db.search.return_value = dataset
+            mock_manager = MagicMock()
+            mock_manager.databases = {'db': mock_db}
+            app.extensions['z3950']['z3950_manager'] = mock_manager
+            kwargs = {'query': 'q', 'size': 10, 'position': 1}
+            resp = view._handle_search_request('db', kwargs)
+            metadata = set(dataset.metadata.values())
 
-        assert resp[0] is None
-        assert resp[1] == dataset
-        assert metadata.issubset(set(resp[2].values()))
+            assert resp[0] is None
+            assert resp[1] == dataset
+            assert metadata.issubset(set(resp[2].values()))

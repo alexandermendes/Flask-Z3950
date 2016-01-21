@@ -32,7 +32,7 @@ class TestZ3950Database():
         rs = []
         for i in range(n):
             mock_record = MagicMock()
-            mock_record.data = 'data{}'.format(i)
+            mock_record.data = 'data{0}'.format(i)
             rs.append(mock_record)
         mock_conn.search.return_value = rs
 

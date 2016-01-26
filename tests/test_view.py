@@ -10,10 +10,15 @@ class TestBlueprint():
 
 
     def test_all_search_view_functions_registered(self, app):
-        funcs = [getattr(view, f) for f in dir(view) if f.startswith('search')]
-        registered = [r for r in app.url_map.iter_rules()]
+        registered = {str(r): r.endpoint for r in app.url_map.iter_rules()}
+        expected = {'/search/<db>/html': 'z3950.search_html',
+                    '/search/<db>/json': 'z3950.search_json',
+                    '/search/<db>/marcxml': 'z3950.search_marcxml',
+                    '/search/<db>/raw': 'z3950.search_raw',
+                    '/static/<path:filename>': 'static'}
 
-        assert not set(funcs).issubset(set(registered))
+        assert set(expected.keys()).issubset(set(registered.keys()))
+        assert set(expected.values()).issubset(set(registered.values()))
 
 
     def test_humanize_int_filter_humanises_integer_string(self):

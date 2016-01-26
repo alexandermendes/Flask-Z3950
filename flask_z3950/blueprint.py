@@ -4,7 +4,7 @@
 import re
 import jinja2
 from flask import Blueprint
-from .view import search_marcxml, search_html, search_json, search_raw
+from . import view
 
 
 class Z3950Blueprint(Blueprint):
@@ -21,11 +21,20 @@ class Z3950Blueprint(Blueprint):
 
         super(Z3950Blueprint, self).__init__(**defaults)
 
-        self.add_url_rule('/search/<db>/marcxml', view_func=search_marcxml)
-        self.add_url_rule('/search/<db>/html', view_func=search_html)
-        self.add_url_rule('/search/<db>/json', view_func=search_json)
-        self.add_url_rule('/search/<db>/raw', view_func=search_raw)
+        url_map = self._url_map()
+
+        for url, view_func in url_map.iteritems():
+            self.add_url_rule(url, view_func=view_func)
+
         self.add_app_template_filter(self.humanize_int)
+
+
+    def _url_map(self):
+        """Return a dict of URLs and view functions."""
+        return {'/search/<db>/marcxml': view.search_marcxml,
+                '/search/<db>/html': view.search_html,
+                '/search/<db>/json': view.search_json,
+                '/search/<db>/raw': view.search_raw}
 
 
     @jinja2.contextfilter

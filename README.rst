@@ -3,7 +3,7 @@ Flask-Z3950
 
 |travis| |coveralls| |pypi|
 
-`Z3950`_ integration for Flask applications.
+`Z39.50`_ integration for Flask applications.
 
 
 Documentation
@@ -20,18 +20,17 @@ Just run the following command:
 
 .. code-block:: console
 
-    $ python setup.py test
+    python setup.py test
 
 
 Contributing
 ============
 
-For guidelines on how to suggest improvements, report bugs or submit pull
-requests see the `CONTRIBUTING`_ file.
-
+See the `CONTRIBUTING`_ file for guidelines on how to suggest improvements, 
+report bugs or submit pull requests.
 
 .. _Flask: http://flask.pocoo.org/
-.. _Z3950: https://en.wikipedia.org/wiki/Z39.50
+.. _Z39.50: https://en.wikipedia.org/wiki/Z39.50
 .. _Flask-Z3950 documentation: https://pythonhosted.org/Flask-Z3950/
 .. _CONTRIBUTING: https://github.com/alexandermendes/Flask-Z3950/blob/master/CONTRIBUTING.md
 

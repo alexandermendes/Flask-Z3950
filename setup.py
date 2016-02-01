@@ -8,7 +8,7 @@ Z39.50 integration for Flask applications.
 
 import re
 import os
-from setuptools import setup, find_packages
+from setuptools import setup
 
 
 version = re.search('^__version__\s*=\s*"(.*)"',
@@ -42,7 +42,8 @@ setup(
     description="Z39.50 integration for Flask applications.",
     license="BSD",
     url="https://github.com/alexandermendes/Flask-Z3950",
-    packages=find_packages(),
+    packages=['flask_z3950'],
+    package_data = {'flask_z3950': ['xsl/*', 'templates/*']},
     long_description=long_description,
     zip_safe=False,
     include_package_data=True,

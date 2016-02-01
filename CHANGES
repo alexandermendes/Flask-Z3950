@@ -1,5 +1,13 @@
 Here is a list of noteable changes between each Flask-Z3950 release.
 
+Version 0.2.2
+-------------
+
+Released February  1st, 2016
+
+- Fix HTML and MARCXML transformations.
+
+
 Version 0.2.1
 -------------
 

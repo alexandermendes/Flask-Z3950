@@ -3,7 +3,7 @@ Flask-Z3950
 
 .. module:: flask_z3950
 
-`Z3950`_ integration for Flask applications.
+`Z39.50`_ integration for Flask applications.
 
 
 Installation
@@ -163,7 +163,7 @@ API
 ===
 
 Z39.50 Objects
-----
+--------------
 
 .. module:: flask_z3950
 
@@ -415,7 +415,7 @@ Changelog
 .. include:: ../CHANGES
 
 .. _Flask: http://flask.pocoo.org/
-.. _Z3950: https://en.wikipedia.org/wiki/Z39.50
+.. _Z39.50: https://en.wikipedia.org/wiki/Z39.50
 .. _Z39.50 configuration: http://www.bl.uk/bibliographic/z3950configuration.html
 
 .. _CCL: http://www.indexdata.dk/yaz/doc/tools.tkl#CCL

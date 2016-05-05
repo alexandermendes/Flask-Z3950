@@ -43,7 +43,6 @@ setup(
     license="BSD",
     url="https://github.com/alexandermendes/Flask-Z3950",
     packages=['flask_z3950'],
-    package_data={'flask_z3950': ['xsl/*', 'templates/*']},
     long_description=long_description,
     zip_safe=False,
     include_package_data=True,

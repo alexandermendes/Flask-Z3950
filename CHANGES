@@ -1,5 +1,15 @@
 Here is a list of noteable changes between each Flask-Z3950 release.
 
+Version 0.2.3
+-------------
+
+Released May 5th, 2016
+
+- Fix HTML pagination
+- Catch UnicodeDecodeError
+- PEP8 fixes
+
+
 Version 0.2.2
 -------------
 

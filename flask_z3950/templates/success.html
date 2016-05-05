@@ -5,7 +5,7 @@
     <p>
         <small>
             {% if previous %}<a href="{{previous}}">{% endif %}&lt; Previous{% if previous %}</a>{% endif %}
-            {% set start = position|humanize_int %}
+            {% set start = position if n_records else 0|humanize_int %}
             {% set n = (position + size - 1)|humanize_int %}
             {% set end = total|humanize_int %}
             {% if position + n_records >= total %}

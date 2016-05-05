@@ -9,10 +9,11 @@ from flask.ext.z3950 import ZoomError
 
 def error_status(e):
     """Return the HTTP status code associated with an exception"""
-    codes = {"QuerySyntaxError": 400,
+    codes = {"ZoomError": 400,
              "ValueError": 400,
-             "RuntimeError": 500}
-
+             "RuntimeError": 500,
+             "UnicodeDecodeError": 500
+             }
     name = e.__class__.__name__
     if name not in codes.keys():
         return 500
@@ -25,13 +26,20 @@ def search_marcxml(db):
 
     :param db: The identifier of the database to be searched.
     """
-    try:
-        (msg, dataset, kwargs) = _handle_search_request(db, request.args)
-    except (ZoomError, ValueError, RuntimeError) as e:
+    def error_response(e):
         resp = render_template('error.xml', msg=str(e))
         return Response(resp, error_status(e), mimetype="application/xml")
 
-    resp = dataset.to_marcxml()
+    try:
+        dataset = _handle_search_request(db, request.args)[1]
+    except (ZoomError, ValueError, RuntimeError) as e:
+        return error_response(e)
+
+    try:
+        resp = dataset.to_marcxml()
+    except UnicodeDecodeError as e:
+        return error_response(e)
+
     return Response(resp, 200, mimetype="application/xml")
 
 
@@ -45,7 +53,12 @@ def search_raw(db):
     except (ZoomError, ValueError, RuntimeError) as e:
         abort(error_status(e))
 
-    return Response(dataset.to_str(), 200, mimetype="text/html")
+    try:
+        resp = dataset.to_str()
+    except UnicodeDecodeError as e:  # pragma: no cover
+        abort(error_status(e))
+
+    return Response(resp, 200, mimetype="text/html")
 
 
 def search_html(db):
@@ -58,7 +71,11 @@ def search_html(db):
     except (ZoomError, ValueError, RuntimeError) as e:
         abort(error_status(e))
 
-    data = dataset.to_html()
+    try:
+        data = dataset.to_html()
+    except UnicodeDecodeError as e:  # pragma: no cover
+        abort(error_status(e))
+
     resp = render_template('success.html', data=data, **kwargs)
     return Response(resp, 200, mimetype="text/html")
 
@@ -68,21 +85,27 @@ def search_json(db):
 
     :param db: The identifier of the database to be searched.
     """
-    resp = {}
+    def error_response(e):
+        code = error_status(e)
+        resp = {'status': 'error', 'data': None, 'message': str(e)}
+        json_resp = json.dumps(resp, indent=4, sort_keys=True)
+        return Response(json_resp, code, mimetype="application/json")
+
     try:
         (msg, dataset, kwargs) = _handle_search_request(db, request.args)
     except (ZoomError, ValueError, RuntimeError) as e:
-        resp = {'status': 'error', 'data': None, 'message': str(e)}
-        code = error_status(e)
+        return error_response(e)
 
-    if not resp:
-        code = 200
-        data = json.loads(dataset.to_json())['data']
-        resp = {'status': 'success', 'data': data, 'message': msg}
-        resp.update(kwargs)
+    try:
+        data = dataset.to_json()
+    except UnicodeDecodeError as e:
+        return error_response(e)
 
+    data = json.loads(data)['data']
+    resp = {'status': 'success', 'data': data, 'message': msg}
+    resp.update(kwargs)
     json_resp = json.dumps(resp, indent=4, sort_keys=True)
-    return Response(json_resp, code, mimetype="application/json")
+    return Response(json_resp, 200, mimetype="application/json")
 
 
 def _handle_search_request(db, kwargs):
@@ -121,7 +144,7 @@ def _handle_search_request(db, kwargs):
 
     # Perform search
     dataset = z3950_db.search(query, position=position - 1, size=size)
-    print dataset
+
     # Collate metadata
     created = dataset.metadata['created']
     total = dataset.metadata['total']
@@ -140,7 +163,6 @@ def _get_next_url(query, position, size, total):
     next_pos = position + size
     if next_pos >= total:
         return None
-
     url = '{0}?query={1}&position={2}&size={3}'
     return url.format(request.base_url, query, next_pos, size)
 
@@ -149,7 +171,6 @@ def _get_previous_url(query, position, size):
     """Return the URL to retrieve the previous chunk of results."""
     if position < 2:
         return None
-
     prev_pos = position - size if position - size > 0 else 1
     url = '{0}?query={1}&position={2}&size={3}'
     return url.format(request.base_url, query, prev_pos, size)

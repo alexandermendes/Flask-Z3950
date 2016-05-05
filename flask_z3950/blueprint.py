@@ -28,14 +28,12 @@ class Z3950Blueprint(Blueprint):
 
         self.add_app_template_filter(self.humanize_int)
 
-
     def _url_map(self):
         """Return a dict of URLs and view functions."""
         return {'/search/<db>/marcxml': view.search_marcxml,
                 '/search/<db>/html': view.search_html,
                 '/search/<db>/json': view.search_json,
                 '/search/<db>/raw': view.search_raw}
-
 
     @jinja2.contextfilter
     def humanize_int(self, context, n):

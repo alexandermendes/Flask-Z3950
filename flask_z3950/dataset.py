@@ -23,11 +23,9 @@ class Dataset(object):
         self.metadata = {'created': time.time(), 'total': total,
                          'n_records': len(record_data)}
 
-
     def to_str(self):
         """Return a string representation of all raw record data."""
         return ''.join([r for r in self.record_data])
-
 
     def to_marcxml(self):
         """Return a MARCXML representation of any MARC records."""
@@ -40,7 +38,6 @@ class Dataset(object):
                     </collection>""".format(xmlstr)
         return self._transform(xmldoc, 'format-xml.xsl')
 
-
     def to_html(self):
         """Return an HTML representation of any MARC records."""
         records = [pymarc.Record(data=r) for r in self.record_data]
@@ -48,7 +45,6 @@ class Dataset(object):
         xslt = 'marcxml-to-html.xsl'
         html_list = [self._transform(xml, xslt) for xml in xmllist]
         return "".join(html_list)
-
 
     def to_json(self, **kwargs):
         """Return a JSON representation of any MARC records.
@@ -61,7 +57,6 @@ class Dataset(object):
         recdict.update(self.metadata)
         recdict.update(kwargs)
         return json.dumps(recdict)
-
 
     def _transform(self, xml, xslt_fn):
         """Return the result of an XSLT transformation."""

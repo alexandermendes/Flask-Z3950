@@ -18,7 +18,6 @@ class Z3950Manager(object):
         if app:
             self.init_app(app)
 
-
     def init_app(self, app):
         """Configure the extension.
 
@@ -32,7 +31,6 @@ class Z3950Manager(object):
             self.databases[name] = db
 
         app.extensions['z3950'] = {'z3950_manager': self}
-
 
     def register_blueprint(self, *args, **kwargs):
         """Register blueprint.
@@ -68,7 +66,6 @@ class Z3950Database(object):
         self.syntax = syntax
         self.elem_set_name = elem_set_name
 
-
     def _connect(self):
         """Return a connection to the configured database.
 
@@ -81,7 +78,6 @@ class Z3950Database(object):
         conn.elementSetName = self.elem_set_name
 
         return conn
-
 
     def search(self, query, position=0, size=10, syntax='CCL'):
         """Return the results of a database query.

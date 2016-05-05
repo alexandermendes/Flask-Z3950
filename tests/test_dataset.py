@@ -26,7 +26,6 @@ class TestDataset():
 
     def test_additional_kwargs_included_in_json(self, dataset):
         json_data = dataset.to_json(number=42)
-        print len(json.loads(json_data).get('data'))
         assert json.loads(json_data).get('number') == 42
 
     def test_dataset_metadata_included_in_json(self, dataset):

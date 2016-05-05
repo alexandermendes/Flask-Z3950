@@ -78,6 +78,24 @@ class TestView():
             res = view.search_html('db')
             assert search_response[1].to_html() in res.data
 
+    @patch('flask_z3950.view._handle_search_request')
+    def test_json_data_raises_error_with_bad_unicode_dataset(self, handle_req,
+                                                             bad_response,
+                                                             app):
+        with app.test_request_context():
+            handle_req.return_value = bad_response
+            resp = view.search_json('db')
+            assert resp.status_code == 500
+
+    @patch('flask_z3950.view._handle_search_request')
+    def test_xml_data_raises_error_with_bad_unicode_dataset(self, handle_req,
+                                                            bad_response,
+                                                            app):
+        with app.test_request_context():
+            handle_req.return_value = bad_response
+            resp = view.search_marcxml('db')
+            assert resp.status_code == 500
+
     def test_next_url_constructed_when_end_not_reached(self, app):
         with app.test_request_context():
             url = view._get_next_url('q', 1, 10, 100)
@@ -98,37 +116,24 @@ class TestView():
             url = view._get_previous_url('q', 1, 10)
             assert url is None
 
-    def test_raw_search_returns_error_when_bad_query(self, client):
-        with client as c:
-            resp = client.get('/search/loc/raw?q')
+    def test_raw_search_returns_error_when_no_query(self, client):
+        resp = client.get('/search/loc/raw')
         assert resp.status_code == 400
 
-    def test_json_search_returns_error_when_bad_query(self, client):
-        with client as c:
-            resp = client.get('/search/loc/json?q')
-        assert resp.status_code == 400
-
-    def test_json_error_contains_message(self, client):
-        with client as c:
-            resp = client.get('/search/loc/json?q')
+    def test_json_search_returns_error_when_no_query(self, client):
+        resp = client.get('/search/loc/json')
         msg = 'The "query" parameter is missing'
         assert json.loads(resp.data)['message'] == msg
-
-    def test_marcxml_search_returns_error_when_bad_query(self, client):
-        with client as c:
-            resp = client.get('/search/loc/marcxml?q')
         assert resp.status_code == 400
 
-    def test_marcxml_error_contains_message(self, client):
-        with client as c:
-            resp = client.get('/search/loc/marcxml?q')
+    def test_marcxml_search_returns_error_when_no_query(self, client):
+        resp = client.get('/search/loc/marcxml')
         msg = 'The &#34;query&#34; parameter is missing'
         assert '<error>{0}</error>'.format(msg) in resp.data
+        assert resp.status_code == 400
 
-    def test_html_search_returns_error_when_bad_query(self, client):
-        with client as c:
-            resp = client.get('/search/loc/html?q')
-
+    def test_html_search_returns_error_when_no_query(self, client):
+        resp = client.get('/search/loc/html')
         assert resp.status_code == 400
 
     def test_search_raises_error_when_query_missing(self):

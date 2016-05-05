@@ -33,6 +33,14 @@ def dataset():
 
 
 @pytest.fixture
+def bad_unicode_dataset():
+    here = os.path.abspath(os.path.dirname(__file__))
+    dataset_file = os.path.join(here, 'bad_unicode_dataset.dat')
+    with open(dataset_file, 'rb') as f:
+        return Dataset([f.read()], total=1)
+
+
+@pytest.fixture
 def search_response(dataset):
     kwargs = {'message': None, 'next': 'example.com',
               'previous': 'example.com',
@@ -42,6 +50,11 @@ def search_response(dataset):
               'size': 10,
               'position': 1}
     return (None, dataset, kwargs)
+
+
+@pytest.fixture
+def bad_response(bad_unicode_dataset):
+    return (None, bad_unicode_dataset, {})
 
 
 @pytest.fixture

@@ -1,5 +1,13 @@
 Here is a list of noteable changes between each Flask-Z3950 release.
 
+Version 0.2.4
+-------------
+
+Released May 5th, 2016
+
+- Bundle non-Python files in PyPi package.
+
+
 Version 0.2.3
 -------------
 

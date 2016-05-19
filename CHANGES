@@ -1,5 +1,13 @@
 Here is a list of noteable changes between each Flask-Z3950 release.
 
+Version 0.2.5
+-------------
+
+Released May 19th, 2016
+
+- Fix setup.py test integration
+
+
 Version 0.2.4
 -------------
 

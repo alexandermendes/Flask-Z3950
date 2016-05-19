@@ -28,10 +28,14 @@ requirements = ["Flask>=0.7.0",
                 "ply>=3.8.0, <4.0",
                 "pymarc>=3.0.4, <4.0",
                 "mollyZ3950==2.04-molly1",  # PyZ3950 on pypi is broken
-                "mock",
-                "pytest>=2.8.0, <3.0",
-                "pytest-cov>=2.2.0, <3.0",
                 ]
+
+setup_requirements = ["pytest-runner>=2.7.1, <3.0"]
+
+test_requirements = ["mock",
+                     "pytest>=2.8.0, <3.0",
+                     "pytest-cov>=2.2.0, <3.0",
+                     ]
 
 
 setup(
@@ -48,8 +52,10 @@ setup(
     include_package_data=True,
     platforms="any",
     install_requires=requirements,
+    setup_requires=setup_requirements,
+    tests_require=test_requirements,
     classifiers=[
-        "Development Status :: 4 - Beta",
+        "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",

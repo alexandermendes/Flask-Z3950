@@ -18,14 +18,11 @@ class Z3950Blueprint(Blueprint):
         defaults = {'name': 'z3950', 'import_name': __name__,
                     'template_folder': 'templates'}
         defaults.update(kwargs)
-
         super(Z3950Blueprint, self).__init__(**defaults)
-
         url_map = self._url_map()
 
         for url, view_func in url_map.iteritems():
             self.add_url_rule(url, view_func=view_func)
-
         self.add_app_template_filter(self.humanize_int)
 
     def _url_map(self):
@@ -33,7 +30,8 @@ class Z3950Blueprint(Blueprint):
         return {'/search/<db>/marcxml': view.search_marcxml,
                 '/search/<db>/html': view.search_html,
                 '/search/<db>/json': view.search_json,
-                '/search/<db>/raw': view.search_raw}
+                '/search/<db>/raw': view.search_raw,
+                '/databases': view.databases}
 
     @jinja2.contextfilter
     def humanize_int(self, context, n):

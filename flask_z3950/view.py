@@ -174,3 +174,16 @@ def _get_previous_url(query, position, size):
     prev_pos = position - size if position - size > 0 else 1
     url = '{0}?query={1}&position={2}&size={3}'
     return url.format(request.base_url, query, prev_pos, size)
+
+
+def databases():
+    """List the available Z39.50 databases in JSON format."""
+    z3950_manager = current_app.extensions['z3950']['z3950_manager']
+    dbs = {}
+    for k, v in z3950_manager.databases.items():
+        dbs[k] = {'db': v.db, 'host': v.host, 'port': v.port,
+                  'syntax': v.syntax, 'elem_set_name': v.elem_set_name}
+    resp = {'status': 'success', 'data': dbs,
+            'message': '{0} databases currently available'.format(len(dbs))}
+    json_resp = json.dumps(resp, indent=4)
+    return Response(json_resp, 200, mimetype="application/json")

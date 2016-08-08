@@ -184,6 +184,6 @@ def databases():
         dbs[k] = {'db': v.db, 'host': v.host, 'port': v.port,
                   'syntax': v.syntax, 'elem_set_name': v.elem_set_name}
     resp = {'status': 'success', 'data': dbs,
-            'message': '{0} databases currently available'.format(len(dbs))}
+            'message': 'Databases available: {0}'.format(len(dbs))}
     json_resp = json.dumps(resp, indent=4)
     return Response(json_resp, 200, mimetype="application/json")

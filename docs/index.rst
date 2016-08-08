@@ -159,24 +159,6 @@ a variety of different formats, such as MARCXML, JSON and HTML. For more
 details, see the API documentation for :class:`Dataset`.
 
 
-API
-===
-
-Z39.50 Objects
---------------
-
-.. module:: flask_z3950
-
-.. autoclass:: Z3950Manager
-   :members:
-
-.. autoclass:: Z3950Database
-   :members:
-
-.. autoclass:: Dataset
-   :members:
-
-
 .. _http-api:
 
 
@@ -354,8 +336,8 @@ The following status codes could be returned from all search functions:
           ...
         </collection>
 
-Errors
-------
+Search Errors
+-------------
 
 .. http:get:: /search/(db)/json
 
@@ -408,6 +390,42 @@ Errors
     If an error occurs while sending a request to the HTML or RAW data
     endpoints the request is aborted with a 400 or 500 status code
     (depending on the cause of the error).
+
+
+Configuration
+-------------
+
+.. http:get:: /databases
+
+    List all currently available databases as JSON.
+
+    **Example request**:
+
+    .. sourcecode:: http
+
+        GET /databases HTTP/1.1
+
+    **Example response**:
+
+    .. sourcecode:: http
+
+        HTTP/1.1 200 OK
+        Content-Type: application/json
+
+        {
+            "status": "success",
+            "message": "Databases available: 1",
+            "data": {
+                "db": {
+                    "host": "somehost",
+                    "elem_set_name": "F",
+                    "db": "somedb",
+                    "port": 123,
+                    "syntax": "USMARC"
+                }
+            }
+        }
+
 
 Changelog
 =========

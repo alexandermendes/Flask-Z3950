@@ -1,5 +1,12 @@
 Here is a list of noteable changes between each Flask-Z3950 release.
 
+Version 0.3.0
+-------------
+
+Released August 8th, 2016
+
+- Add view function for listing available databases.
+
 Version 0.2.5
 -------------
 

@@ -4,6 +4,7 @@ import json
 import pytest
 from mock import patch, MagicMock
 from flask_z3950 import view, blueprint
+from flask_z3950.z3950 import Z3950Database
 
 
 class TestBlueprint():
@@ -202,3 +203,17 @@ class TestView():
             assert resp[0] is None
             assert resp[1] == dataset
             assert metadata.issubset(set(resp[2].values()))
+
+    def test_databases_listed(self, app, client):
+        with app.app_context():
+            db = Z3950Database('somedb', 'somehost', '123')
+            mock_manager = MagicMock()
+            mock_manager.databases = {'db': db}
+            app.extensions['z3950']['z3950_manager'] = mock_manager
+            resp = view.databases()
+            json_data = json.loads(resp.data)
+            assert json_data['data'] == {u'db': {u'host': u'somehost',
+                                                 u'elem_set_name': u'F',
+                                                 u'db': u'somedb',
+                                                 u'port': 123,
+                                                 u'syntax': u'USMARC'}}

@@ -14,7 +14,6 @@ class Z3950Manager(object):
     """
 
     def __init__(self, app=None):
-        self.app = app
         if app:
             self.init_app(app)
 
@@ -23,8 +22,8 @@ class Z3950Manager(object):
 
         :param app: The Flask application.
         """
+        self.app = app
         db_config = app.config.get('Z3950_DATABASES', {})
-
         self.databases = {}
         for name, config in db_config.items():
             db = Z3950Database(**config)

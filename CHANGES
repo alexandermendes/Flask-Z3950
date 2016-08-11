@@ -1,5 +1,12 @@
 Here is a list of noteable changes between each Flask-Z3950 release.
 
+Version 0.3.1
+-------------
+
+Released August 11th, 2016
+
+- Fix init_app instantiation bug.
+
 Version 0.3.0
 -------------
 

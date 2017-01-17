@@ -33,8 +33,8 @@ requirements = ["Flask>=0.7.0",
 setup_requirements = ["pytest-runner>=2.7.1, <3.0"]
 
 test_requirements = ["mock",
-                     "pytest>=2.8.0, <3.0",
-                     "pytest-cov>=2.2.0, <3.0",
+                     "pytest>=2.6.0, <2.7.0",
+                     "pytest-cov>=2.4.0, <2.5.0",
                      ]
 
 

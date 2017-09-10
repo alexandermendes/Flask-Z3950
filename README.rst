@@ -1,7 +1,7 @@
 Flask-Z3950
 ***********
 
-|travis| |coveralls| |pypi|
+|travis| |coveralls| |pypi| [doi]
 
 `Z39.50`_ integration for Flask applications.
 
@@ -45,3 +45,7 @@ report bugs or submit pull requests.
 .. |pypi| image:: https://img.shields.io/pypi/v/Flask-Z3950.svg?label=latest%20version
     :target: https://pypi.python.org/pypi/Flask-Z3950
     :alt: Latest version released on PyPi
+
+.. |doi| image:: https://zenodo.org/badge/DOI/10.5281/zenodo.888145.svg
+   :target: https://doi.org/10.5281/zenodo.888145
+   :alt: DOI

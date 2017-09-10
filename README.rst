@@ -1,7 +1,7 @@
 Flask-Z3950
 ***********
 
-|travis| |coveralls| |pypi| [doi]
+|travis| |coveralls| |pypi| |doi|
 
 `Z39.50`_ integration for Flask applications.
 

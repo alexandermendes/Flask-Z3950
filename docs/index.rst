@@ -98,6 +98,8 @@ common of these syntaxes can be found below:
 - `PQF`_: Index Data's Prefix Query Format
 - `C2`_: Cheshire II query syntax
 
+To change the syntax add the syntax query parameter, for example `syntax=CQL`.
+
 
 Building a CCL query
 ====================

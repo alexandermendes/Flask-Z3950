@@ -143,7 +143,9 @@ def _handle_search_request(db, kwargs):
         raise ValueError('No database with that identifier could be found')
 
     # Perform search
-    dataset = z3950_db.search(query, position=position - 1, size=size)
+    syntax = kwargs.get('syntax', 'CCL')
+    dataset = z3950_db.search(query, position=position - 1, size=size,
+                              syntax=syntax)
 
     # Collate metadata
     created = dataset.metadata['created']

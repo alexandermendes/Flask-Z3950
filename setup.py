@@ -30,11 +30,11 @@ requirements = ["Flask>=0.7.0",
                 "mollyZ3950==2.04-molly1",  # PyZ3950 on pypi is broken
                 ]
 
-setup_requirements = ["pytest-runner>=2.7.1, <3.0"]
+setup_requirements = ["pytest-runner>=3.0.0, <4.0"]
 
 test_requirements = ["mock",
-                     "pytest>=2.6.0, <2.7.0",
-                     "pytest-cov>=2.4.0, <2.5.0",
+                     "pytest>=3.2.5, <4.0"",
+                     "pytest-cov>=2.5.0, <3.0",
                      ]
 
 

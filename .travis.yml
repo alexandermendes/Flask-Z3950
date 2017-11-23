@@ -6,10 +6,10 @@ python:
 before_install:
   - pip install --upgrade pip
 install:
-  - pip install pep8
+  - pip install pycodestyle
   - python setup.py install
 script:
   - python setup.py test
-  - pep8
+  - pycodestyle
 after_success:
   - coveralls

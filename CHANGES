@@ -1,5 +1,20 @@
 Here is a list of noteable changes between each Flask-Z3950 release.
 
+Version 0.3.3
+-------------
+
+Released November 23rd, 2017
+
+- Add the syntax query parameter to searches.
+- Move from pep8 to pycodestyle
+
+Version 0.3.2
+-------------
+
+Released September 10th, 2017
+
+- Add DOI
+
 Version 0.3.1
 -------------
 

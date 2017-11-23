@@ -175,6 +175,7 @@ The following query parameters apply to all search functions:
     - **query:** The Z39.50 database query.
     - **position:** Position of the first record (default is 1).
     - **size:** Maximum number of records (default is 10).
+    - **syntax:** The query syntax (default is CCL).
 
 The following status codes could be returned from all search functions:
 

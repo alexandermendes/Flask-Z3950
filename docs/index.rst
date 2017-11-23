@@ -429,12 +429,6 @@ Configuration
             }
         }
 
-
-Changelog
-=========
-
-.. include:: ../CHANGES
-
 .. _Flask: http://flask.pocoo.org/
 .. _Z39.50: https://en.wikipedia.org/wiki/Z39.50
 .. _Z39.50 configuration: http://www.bl.uk/bibliographic/z3950configuration.html

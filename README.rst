@@ -5,29 +5,22 @@ Flask-Z3950
 
 `Z39.50`_ integration for Flask applications.
 
-
-Documentation
-=============
-
 See the `Flask-Z3950 documentation`_
 for full details of installation, configuration and usage.
 
+Build setup
+===========
 
-Testing
-=======
+.. code-block:: bash
 
-Just run the following command:
+    # install development packages
+    $ sudo apt-get install libxml2-dev libxslt-dev python-dev lib32z1-dev
 
-.. code-block:: console
+    # install Flask-Z3950
+    pip install Flask-Z3950
 
+    # test
     python setup.py test
-
-
-Contributing
-============
-
-See the `CONTRIBUTING`_ file for guidelines on how to suggest improvements, 
-report bugs or submit pull requests.
 
 .. _Flask: http://flask.pocoo.org/
 .. _Z39.50: https://en.wikipedia.org/wiki/Z39.50

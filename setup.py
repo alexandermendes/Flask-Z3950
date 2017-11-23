@@ -19,7 +19,7 @@ version = re.search('^__version__\s*=\s*"(.*)"',
 try:
     here = os.path.dirname(__file__)
     long_description = open(os.path.join(here, 'docs', 'readme.rst')).read()
-except:
+except IOError:
     long_description = ""
 
 
